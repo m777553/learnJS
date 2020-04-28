@@ -53,7 +53,7 @@ var createRandomMassive = function(fullMassive, lengthCreateveMassive) {
 
 var coatColor = createRandomMassive(coatColorAll, 4);
 var eyesColor = createRandomMassive(eyesColorAll, 4);
-//alert(coatColor);
+//alert(coatColor.length);
 
 //этот цикл БЕЗ ПОВТОРЕНИЙ
 // for (var i = 0; i < 4; i++) {
