@@ -90,15 +90,35 @@ var pictureTemlate = document.querySelector('#picture-template').content.querySe
 
 var picturesList = document.querySelector('.pictures');
 
+//fragment это ссылка на пустой объект DocumentFragment.
+var fragment = document.createDocumentFragment();
 
-for (var j = 0; j < 25; j++) {
+//создание одного элемента с помощью шаблона
+var createPictureElement = function(photoMassiveElem) {
 	var pictureElement = pictureTemlate.cloneNode(true);
 
-	pictureElement.querySelector('img').src = photoMassive[j].url;
+	pictureElement.querySelector('img').src = photoMassiveElem.url;
+	pictureElement.querySelector('.picture__stat--likes').textContent = photoMassiveElem.likes;
+	pictureElement.querySelector('.picture__stat--comments').textContent = photoMassiveElem.comments;
 
-	pictureElement.querySelector('.picture__stat--likes').textContent = photoMassive[j].likes;
-	pictureElement.querySelector('.picture__stat--comments').textContent = photoMassive[j].comments;
-
-
-	picturesList.appendChild(pictureElement);
+	return pictureElement;
 }
+//добавляем во fragment моканые фотографии
+for (var j = 0; j < 25; j++) {
+	fragment.appendChild(createPictureElement(photoMassive[j]));
+
+}
+//добавляем фрагмент со всеми фотографиями на страницу
+picturesList.appendChild(fragment);
+
+// for (var j = 0; j < 25; j++) {
+// 	var pictureElement = pictureTemlate.cloneNode(true);
+//
+// 	pictureElement.querySelector('img').src = photoMassive[j].url;
+//
+// 	pictureElement.querySelector('.picture__stat--likes').textContent = photoMassive[j].likes;
+// 	pictureElement.querySelector('.picture__stat--comments').textContent = photoMassive[j].comments;
+//
+//
+// 	picturesList.appendChild(pictureElement);
+// }
