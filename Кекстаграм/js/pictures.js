@@ -108,6 +108,8 @@ for (var j = 0; j < 25; j++) {
 	fragment.appendChild(createPictureElement(photoMassive[j]));
 
 }
+// Отрисуйте сгенерированные DOM-элементы в блок .pictures. Для вставки
+// элементов используйте DocumentFragment.
 //добавляем фрагмент со всеми фотографиями на страницу
 picturesList.appendChild(fragment);
 
@@ -122,3 +124,26 @@ picturesList.appendChild(fragment);
 //
 // 	picturesList.appendChild(pictureElement);
 // }
+// Покажите элемент .big-picture, удалив у него класс .hidden и заполните
+// его данными из первого элемента сгенерированного вами массива:
+// o Адрес изображения url подставьте как src изображения внутри
+// блока.big-picture__img.
+// o Количество лайков likes подставьте как текстовое содержание
+// элемента .likes-count.
+// o Количество комментариев comments подставьте как текстовое
+// содержание элемента .comments-count.
+// o Список комментариев под фотографией: коментарии должны
+// вставляться в блок .social__comments. Разметка каждого
+// комментария должна выглядеть так:
+// <li class="social__comment social__comment--text">
+//  <img class="social__picture" src="img/avatar-
+//  {{случайное число от 1 до 6}}.svg"
+//  alt="Аватар комментатора фотографии"
+//  width="35" height="35">
+//  <p class="social__text">{{текст комментария}}</p>
+// </li>
+// o Описание фотографии description вставьте строкой
+// в блок .social__caption.
+
+var bigPicture = document.querySelector('.big-picture');
+bigPicture.classList.remove('hidden');
