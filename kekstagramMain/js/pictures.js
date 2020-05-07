@@ -154,33 +154,51 @@ picturesList.appendChild(fragment);
 var bigPicture = document.querySelector('.big-picture');
 bigPicture.classList.remove('hidden');
 
-bigPicture.querySelector('.big-picture__img').querySelector('img').src = photoMassive[0].url;
+//Создаю функцию комментариев к бигПикчер
+var createBigPicture = function(bigPicture) {
 
-bigPicture.querySelector('.likes-count').textContent = photoMassive[0].likes;
+	bigPicture.querySelector('.big-picture__img').querySelector('img').src = photoMassive[0].url;
 
-bigPicture.querySelector('.comments-count').textContent = photoMassive[0].comments.length;
+	bigPicture.querySelector('.likes-count').textContent = photoMassive[0].likes;
 
-//Список, куда будем вставлять комментарии
-var socialComentsList = bigPicture.querySelector('.social__comments');
-var socialComentsElement = bigPicture.querySelector('.social__comment');
+	bigPicture.querySelector('.comments-count').textContent = photoMassive[0].comments.length;
 
-//fragment это ссылка на пустой объект DocumentFragment.
-var fragment = document.createDocumentFragment();
+	//Список, куда будем вставлять комментарии
+	var socialComentsList = bigPicture.querySelector('.social__comments');
+	//это будет мой шаблон
+	var socialComentsElement = bigPicture.querySelector('.social__comment');
 
-//создание одного элемента с помощью шаблона
-var createCommentsElement = function(photoMassiveElem) {
-	var commentsElement = socialComentsElement.cloneNode(true);
+	//fragment это ссылка на пустой объект DocumentFragment.
+	var fragment = document.createDocumentFragment();
 
-	commentsElement.querySelector('img').src = `img/avatar-${integerNimMax(1,6)}.svg`;
-	commentsElement.querySelector('.social__text').textContent =
-//TODO
-	 photoMassiveElem.likes;
-	commentsElement.querySelector('.picture__comments').textContent = photoMassiveElem.comments;
+	//создание одного элемента с помощью шаблона
+	var createCommentsElement = function(photoMassiveElem, comment) {
+		var commentsElement = socialComentsElement.cloneNode(true);
 
-	return commentsElement;
-}
-//добавляем во fragment моканые фотографии
-for (var j = 0; j < 25; j++) {
-	fragment.appendChild(createPictureElement(photoMassive[j]));
+		commentsElement.querySelector('img').src = `img/avatar-${integerNimMax(1,6)}.svg`;
+		commentsElement.querySelector('.social__text').textContent = comment;
+		// if (photoMassiveElem.comments[1]) {
+		// 	var comment= photoMassiveElem.comments[0];
+		// 	photoMassiveElem.comments[0]=photoMassiveElem.comments[1];
+		// 	photoMassiveElem.comments[1] = comment;
+		// }
 
-}
+
+		return commentsElement;
+	}
+
+	//добавляем во fragment моканые фотографии
+	for (var j = 0; j < photoMassive[0].comments.length; j++) {
+		fragment.appendChild(createCommentsElement(photoMassive[0], photoMassive[0].comments[j]));
+	}
+
+	socialComentsList.appendChild(fragment);
+
+
+	bigPicture.querySelector('.social__caption').textContent = photoMassive[0].description;
+
+	bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+	bigPicture.querySelector('.social__comments-loader').classList.add('visually-hidden');
+};
+
+createBigPicture(bigPicture);

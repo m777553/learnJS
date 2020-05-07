@@ -1,7 +1,7 @@
 'use strict';
 
 var setup = document.querySelector('.setup');
-setup.classList.remove('hidden');
+//setup.classList.remove('hidden');
 
 var setupSimilar = document.querySelector('.setup-similar');
 setupSimilar.classList.remove('hidden');
@@ -130,3 +130,31 @@ for (var j = 0; j < 4; j++) {
 
 	similarWizardList.appendChild(wizardElement);
 }
+
+// Урок 4. Работа с событиями.
+// Открытие/закрытие окна настройки персонажа:
+
+var setutOpenButton = document.querySelector('.setup-open');
+var setutCloseButton = document.querySelector('.setup-close');
+//var setup = document.querySelector('.setup'); Мы использовани его выше
+
+// Окно.setup должно открываться по нажатию на блок.setup-open.
+// Открытие окна производится удалением класса hidden у блока
+// o Окно.setup должно закрываться по нажатию на элемент.setup-close,
+// расположенный внутри окна
+
+setutOpenButton.addEventListener('click', function() {
+	setup.classList.remove('hidden');
+});
+
+setutCloseButton.addEventListener('click', function() {
+	setup.classList.add('hidden');
+});
+
+
+// Валидация ввода имени персонажа. Имя персонажа вводится в
+// поле .setup-user-name. Добавьте следующие ограничения:
+// o имя персонажа не может содержать менее 2 символов;
+// o максимальная длина имени персонажа — 25 символов.
+// Для указания ограничений на ввод используйте стандартные возможности
+// форм HTML5.
