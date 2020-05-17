@@ -134,8 +134,33 @@ for (var j = 0; j < 4; j++) {
 // Урок 4. Работа с событиями.
 // Открытие/закрытие окна настройки персонажа:
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+
 var setutOpenButton = document.querySelector('.setup-open');
 var setutCloseButton = document.querySelector('.setup-close');
+
+
+
+//выносим повторяющиеся блоки (закр и откр окна) в отдельные функции
+var openPopup = function() {
+	setup.classList.remove('hidden');
+	document.addEventListener('keydown', onPopupEscPress);
+};
+var closePopup = function() {
+	setup.classList.add('hidden');
+	document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function(evt) {
+	if (evt.keyCode === ESC_KEYCODE) {
+		closePopup();
+	}
+};
+
+
+
 //var setup = document.querySelector('.setup'); Мы использовани его выше
 
 // Окно.setup должно открываться по нажатию на блок.setup-open.
@@ -144,12 +169,32 @@ var setutCloseButton = document.querySelector('.setup-close');
 // расположенный внутри окна
 
 setutOpenButton.addEventListener('click', function() {
-	setup.classList.remove('hidden');
+	openPopup();
 });
 
-setutCloseButton.addEventListener('click', function() {
-	setup.classList.add('hidden');
+
+
+
+
+//обработка открытия настройки клавишей ENTER
+setutOpenButton.addEventListener('keydown', function(evt) {
+	if (evt.keyCode === ENTER_KEYCODE) {
+		openPopup();
+	}
 });
+
+
+
+setutCloseButton.addEventListener('click', function(evt) {
+	closePopup();
+});
+//обработка закрытия настройки клавишей ENTER
+setutCloseButton.addEventListener('keydown',
+	function(evt) {
+		if (evt.keyCode === ENTER_KEYCODE) {
+			closePopup();
+		}
+	});
 
 
 // Валидация ввода имени персонажа. Имя персонажа вводится в
@@ -158,3 +203,96 @@ setutCloseButton.addEventListener('click', function() {
 // o максимальная длина имени персонажа — 25 символов.
 // Для указания ограничений на ввод используйте стандартные возможности
 // форм HTML5.
+
+
+
+// Обрабатываем событие invalid на поле ввода имени персонажа
+
+var userNameInput = document.querySelector('.setup-user-name');
+
+//Останавливаем распространение события закрытия на ESC пока мы на поле ввода имени
+userNameInput.addEventListener('keydown', function(evt) {
+	if (evt.keyCode === ESC_KEYCODE) {
+		evt.stopPropagation();
+	}
+});
+userNameInput.addEventListener('invalid', function(evt) {
+	if (userNameInput.validity.tooShort) {
+		userNameInput.setCustomValidity('Поле должно содержать минимум два символа');
+	} else if (userNameInput.validity.tooLong) {
+		userNameInput.setCustomValidity('Поле должно содержать не более 25 символов');
+	} else if (userNameInput.validity.valueMissing) {
+		userNameInput.setCustomValidity('Поле должно быть заполнено, позязя');
+	} else {
+		userNameInput.setCustomValidity('');
+	}
+
+});
+
+
+// Изменение цвета мантии персонажа по нажатию. Цвет мантии .setupwizard .wizard-coat должен обновляться по нажатию на неё. Цвет мантии
+// задаётся через изменение инлайнового CSS-свойства fill для элемента.
+// Цвет должен сменяться произвольным образом на один из следующих
+// цветов:
+// o rgb(101, 137, 164)
+// o rgb(241, 43, 107)
+// o rgb(146, 100, 161)
+// o rgb(56, 159, 117)
+// o rgb(215, 210, 55)
+// o rgb(0, 0, 0)
+// Изменение цвета фаерболов по нажатию. Цвет задаётся через
+// изменение фона у блока .setup-fireball-wrap. Возможные варианты цвета:
+// o #ee4830
+// o #30a8ee
+// o #5ce6c0
+// o #e848d5
+// o #e6e848
+
+var wizardCoat = document.querySelector('.wizard-coat');
+
+var wizardCoatInput = document.querySelector('input[name="coat-color"]');
+
+var wizardFireball = document.querySelector('.setup-fireball-wrap');
+
+var wizardFireballInput = document.querySelector('input[name="fireball-color"]');
+
+
+
+var coatColor = ['rgb(101, 137, 164)', ' rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', ' rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+
+var fireballColor = [
+	'#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'
+];
+
+//функция выбора рандомного элемента из массива
+var getRandomElement = function(massive) {
+	return massive[Math.floor(Math.random() * massive.length)];
+};
+
+//функция смены цвета элемента с учетом изменения значения input для правильной отправки данных формы
+var changeClothes = function(clothesElem, massive) {
+	var color = getRandomElement(massive);
+	clothesElem.style.fill = color;
+	var changedInput;
+	if (clothesElem == wizardCoat) {
+		changedInput = wizardCoatInput;
+		changedInput.value = color;
+	}
+};
+
+var changeFireball = function() {
+	var color = getRandomElement(fireballColor);
+	wizardFireballInput.value = color;
+	wizardFireball.style.background = color;
+	//alert(wizardFireball.value);
+};
+//changeFireball();
+
+
+//вызов слушателя клика на элемент одежды
+wizardCoat.addEventListener('click', function(evt) {
+	changeClothes(wizardCoat, coatColor);
+
+});
+
+wizardFireball.addEventListener('click', changeFireball);
