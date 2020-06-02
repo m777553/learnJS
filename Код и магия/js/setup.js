@@ -143,10 +143,22 @@ var setutCloseButton = document.querySelector('.setup-close');
 
 
 
+
+//Сохраняем начальное положение окна настройки
+var setupStartCords = {
+	x: window.getComputedStyle(setup).left.replace(/[^\d.]/g,''),
+	y: window.getComputedStyle(setup).top.replace(/\D/g,'')
+};
 //выносим повторяющиеся блоки (закр и откр окна) в отдельные функции
 var openPopup = function() {
 	setup.classList.remove('hidden');
 	document.addEventListener('keydown', onPopupEscPress);
+
+
+//Задаём начальное положение окну настройки
+
+	setup.style.top =setupStartCords.y + 'px';
+	setup.style.left = setupStartCords.x + '%';
 };
 var closePopup = function() {
 	setup.classList.add('hidden');
@@ -296,3 +308,18 @@ wizardCoat.addEventListener('click', function(evt) {
 });
 
 wizardFireball.addEventListener('click', changeFireball);
+
+
+
+// 17 Учебный проект: в движении
+// Задача
+// Добавить интерактивности на страницу. Сделать диалог редактирования
+// персонажа перетаскиваемым (draggable)
+// В модуле для работы с диалогом (dialog.js) реализуйте возможность
+// перетаскивания диалога:
+// • Диалог должен начинать двигаться за курсором мыши при нажатии
+// (mousedown) на блок .setup-user-pic;
+// • Диалог должен переставать двигаться за курсором мыши при отпускании
+// (mouseup) кнопки мыши и оставаться на новом месте;
+// • При повторном открытии/закрытии диалога, положение диалога должно
+// сбрасываться на изначальное;
