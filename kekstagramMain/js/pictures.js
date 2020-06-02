@@ -714,17 +714,17 @@ var onMouseDown = function(evt) {
 			x: startCords.x - moveEvt.clientX
 
 		};
-		if (pinHendler.offsetLeft < 0) {
+		if (((pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100) <= 0) {
 			pinHendler.style.left = 0 + '%';
 
-		} else if (pinHendler.offsetLeft >= effectLevelLine.offsetWidth) {
+		} else if (((pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100) >= 100) {
 			pinHendler.style.left = 100 + '%';
 		} else {
 			startCords = {
 				x: moveEvt.clientX
 			};
 			pinHendler.style.left = (pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100 + '%';
-
+			effectLevel.style.width = (pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100 + '%';
 		}
 
 		// TODO:
