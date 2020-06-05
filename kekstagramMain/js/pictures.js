@@ -697,6 +697,7 @@ var effectLevelLine = document.querySelector('.effect-level__line');
 
 var onMouseDown = function(evt) {
 	evt.preventDefault();
+	var dragged = false;
 	//getComputedStyle(pinHendler).cursor = 'pointer';
 	pinHendler.style.cursor = 'pointer';
 	var effectLevelLineWidth = getComputedStyle(effectLevelLine).width;
@@ -704,8 +705,66 @@ var onMouseDown = function(evt) {
 	var startCords = {
 		x: evt.clientX
 	};
+
+	//Попробуем установить эффект
+	var imgPreview = document.querySelector('.img-upload__preview');
+	//Находим, какой эффект использовали
+	var effectCheckedName = document.querySelector('input[type="radio"]:checked').value;
+
+
+	var changeEffect20 = function(effectCheckedName, imgPreview) {
+		switch (effectCheckedName) {
+			case 'chrome':
+				imgPreview.style.filter = 'grayscale(0.2)';
+				break;
+			case 'sepia':
+				imgPreview.style.filter = 'sepia(0.2)';
+				break;
+			case 'marvin':
+				imgPreview.style.filter = 'invert(20%)';
+				break;
+			case 'phobos':
+				imgPreview.style.filter = 'blur(0.6px)';
+				break;
+
+
+			default:
+				imgPreview.style.filter = 'brightness(0.6)';
+		}
+	};
+	var changeEffect = function(effectCheckedName, imgPreview, intensive) {
+		if (intensive == 'undefine') {
+			intensive = 0.2;
+		}
+		switch (effectCheckedName) {
+			case 'chrome':
+
+				imgPreview.style.filter = `grayscale(${intensive})`;
+				//console.log(imgPreview.style.filter);
+				break;
+			case 'sepia':
+				imgPreview.style.filter = `sepia(${intensive})`;
+				break;
+			case 'marvin':
+				imgPreview.style.filter = `invert(${intensive*100}%)`;
+
+				break;
+			case 'phobos':
+				imgPreview.style.filter = `blur(${intensive*3}px)`;
+
+				break;
+
+
+			default:
+				imgPreview.style.filter = `brightness(${intensive*2+1})`;
+				//console.log(imgPreview.style.filter);
+		}
+	};
+
 	var onMouseMove = function(moveEvt) {
 		moveEvt.preventDefault();
+		dragged = true;
+
 		var newStartCords = {
 			x: evt.clientX
 		};
@@ -714,6 +773,21 @@ var onMouseDown = function(evt) {
 			x: startCords.x - moveEvt.clientX
 
 		};
+		//функция, которая возращает доли интенсивности эффекта
+		var isEffectLevel = function() {
+			if (pinHendler.offsetLeft - shift.x <= 0) {
+				return 0;
+
+			} else if (((pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100) >= 100) {
+				return 1;
+			} else {
+
+				return Math.round(((pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth) * 100) / 100;
+
+			}
+		};
+
+
 		if (((pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100) <= 0) {
 			pinHendler.style.left = 0 + '%';
 
@@ -726,6 +800,9 @@ var onMouseDown = function(evt) {
 			pinHendler.style.left = (pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100 + '%';
 			effectLevel.style.width = (pinHendler.offsetLeft - shift.x) / effectLevelLine.offsetWidth * 100 + '%';
 		}
+		//console.log(isEffectLevel());
+		changeEffect(effectCheckedName, imgPreview, isEffectLevel());
+		//console.log(isEffectLevel());
 
 		// TODO:
 		//отрисовываем новое положение
@@ -736,8 +813,8 @@ var onMouseDown = function(evt) {
 		// 	shift.x = 0;
 		// }
 
-		console.log(pinHendler.offsetLeft + " startCords " + startCords.x);
-		console.log('evt.clientX' + evt.clientX + " moveEvt.clientX " + moveEvt.clientX);
+		// console.log(pinHendler.offsetLeft + " startCords " + startCords.x);
+		// console.log('evt.clientX' + evt.clientX + " moveEvt.clientX " + moveEvt.clientX);
 
 
 	};
@@ -746,10 +823,62 @@ var onMouseDown = function(evt) {
 		upEvt.preventDefault();
 		document.removeEventListener('mousemove', onMouseMove);
 		document.removeEventListener('mouseup', onMouseUp);
+		//Если пин не переместили, апросто оставили на 20%
+		if (!dragged && pinHendler.style.left == '20%') {
+			//console.log(pinHendler.style.left);
+
+			//удаляем класс с интенсивностью эффекта 100%
+			imgPreview.classList.remove(imgPreview.classList[1]);
+			changeEffect(effectCheckedName, imgPreview);
+		}
 	};
 	document.addEventListener('mousemove', onMouseMove);
 	document.addEventListener('mouseup', onMouseUp);
 
-}
+};
 
 pinHendler.addEventListener('mousedown', onMouseDown);
+
+
+
+
+
+
+//Дублирую код   --> Выбор фильтра при нажатии на мини изображение
+
+var effectsList = document.querySelector('.effects__list');
+var imgPreview = document.querySelector('.img-upload__preview');
+
+var onEffectClick = function(evt) {
+	var effectTanger = evt.target;
+
+	if (effectTanger.matches('.effects__preview')) {
+		if (imgPreview.classList.length == 2) {
+			imgPreview.classList.remove(imgPreview.classList[1]);
+
+
+		}
+
+		//NEW
+		//При переходе между эффектами сброс на 20%
+		pinHendler.style.left = 20 + '%';
+		effectLevel.style.width = 20 + '%';
+
+
+		imgPreview.classList.add(effectTanger.classList[1]);
+		//обнуление стиля фильтра при переключении между эффектами
+		imgPreview.style.filter = '';
+		//Скрываем ползунок на оригинальном фото
+		if (effectTanger.classList.contains('effects__preview--none')) {
+			document.querySelector('.effect-level').classList.add('hidden');
+		} else {
+			document.querySelector('.effect-level').classList.remove('hidden');
+		}
+		//document.getComputedStyle(imgPreview).backgroundColor = 'black';
+		evt.stopPropagation();
+	}
+	// alert(evt.target);
+	// evt.stopPropagation();
+
+};
+effectsList.addEventListener('click', onEffectClick);
