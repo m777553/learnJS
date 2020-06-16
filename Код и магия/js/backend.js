@@ -19,6 +19,8 @@
 		save: 'https://javascript.pages.academy/code-and-magick',
 	};
 
+
+
 	//var data = new FormData(window.form);
 
 	// var onLoad = function(data) {
@@ -47,10 +49,12 @@
 			xhr.addEventListener('load', function() {
 				if (xhr.status === 200) {
 					onLoad(xhr.response);
-					//console.log('ok');
+
+
 				} else {
 					onError('Статус ответа ' + xhr.status + ' ' + xhr.statusText);
-					console.log('no');
+
+					//console.log('no');
 				}
 
 			});
@@ -61,12 +65,14 @@
 			});
 			xhr.addEventListener('timeout', function() {
 				onError('Запрос не успел выполниться за ' + xhr.timeout + 'ms');
+				//createErrorPopup(onError);
 			});
 			xhr.timeout = 10000;
 
 			xhr.open('GET', URL.load);
 
 			xhr.send();
+
 		},
 
 		// 		Функция backend.save должна принимать на вход следующие параметры:
@@ -105,7 +111,46 @@
 
 			xhr.send(data);
 		},
+		// 5. Добавьте обработку возможных ошибок при загрузке: создайте DOM-элемент,
+		// который будет показывать сообщения об ошибках, произошедших по ходу загрузки
+		// данных. Дизайн DOM-элемента предлагается вам придумать самостоятельно.
+		createErrorPopup: function(str) {
+
+
+			var errorPopup = document.createElement('div');
+			errorPopup.classList.remove('hidden');
+
+			errorPopup.textContent = str;
+			errorPopup.style.padding = "20px";
+			errorPopup.style.marginLeft = "-250px";
+			errorPopup.style.marginTop = "-50px";
+
+			errorPopup.style.border = "2px solid red";
+			errorPopup.style.position = "fixed";
+			errorPopup.style.top = '50%';
+			errorPopup.style.background = 'white';
+			errorPopup.style.color = 'red';
+			errorPopup.style.fontWeight = 'bold';
+			errorPopup.style.textAlign = 'center';
+			errorPopup.style.fontSize = '18px';
+
+			//errorPopup.style.font.size = '18px';
+
+			errorPopup.style.width = '500px';
+			//errorPopup.style.height = '100px';
+			errorPopup.style.left = '50%';
+			document.body.appendChild(errorPopup);
+			// var hide = function () {
+			// 	errorPopup.classList.add('hidden');
+			// };
+			setTimeout(function() {
+				errorPopup.remove();
+			}, 5000);
+
+
+		},
 	};
+
 })();
 
 // Функция backend.load должна принимать на вход следующие параметры:
@@ -136,6 +181,24 @@
 // формы по умолчанию и отправлял данные формы
 // на сервер https://js.dump.academy/code-and-magick. А при успешной загрузке
 // данных на сервер закрывал окно редактирования персонажа.
+
+// onServerError: function(errorMessage) {
+// 	var errorContainer = document.createElement('div');
+//
+// 	var onErrorHide = function() {
+// 		errorContainer.classList.add('hidden');
+// 	};
+//
+// 	errorContainer.textContent = errorMessage;
+// 	errorContainer.classList.add('error');
+//
+// 	document.body.appendChild(errorContainer);
+//
+// 	setTimeout(onErrorHide, 5000);
+// }
+// }
+// };
+// };
 
 
 

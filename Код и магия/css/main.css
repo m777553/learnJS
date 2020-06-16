@@ -870,3 +870,20 @@ input[type=radio]:checked + .review-mark-label {
   left: 0;
   top: 0;
 }
+/* ________________JS____________________________ */
+
+
+.errorPopup{
+  z-index: 100;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 5px 10px;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  background-color: red;
+}

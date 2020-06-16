@@ -161,8 +161,10 @@
 			similarWizardList.appendChild(fragment);
 			document.querySelector('.setup-similar').classList.remove('hidden');
 		}
-	}, function(str) {
-		console.log(str);
-	});
+	},
+	function(str) {
+		 window.backend.createErrorPopup(str);
+	}
+);
 
 })();

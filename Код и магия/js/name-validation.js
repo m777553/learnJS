@@ -15,16 +15,17 @@
 
 // Обрабатываем событие invalid на поле ввода имени персонажа
 (function() {
-	window.form = document.querySelector('.setup-wizard-form');
+	window.form = document.querySelector('.setup-wizard-form'); //data
 	window.form.addEventListener('submit', function(evt) {
 		//если отклик (response) прошёл, то закрываем окно настройки
 		window.backend.save(new FormData(window.form), function(response) {
 			document.querySelector('.setup').classList.add('hidden');
 		});
 		evt.preventDefault();
-	}, function (str) {
-		console.log(str);
-	});
+	}, //onLoad
+	function (str) {
+		 window.backend.createErrorPopup(str);
+	}); //onError
 
 
 
