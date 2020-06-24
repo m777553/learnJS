@@ -103,19 +103,31 @@
 
 		pictureElement.querySelector('img').src = photoMassiveElem.url;
 		pictureElement.querySelector('.picture__likes').textContent = photoMassiveElem.likes;
-		pictureElement.querySelector('.picture__comments').textContent = photoMassiveElem.comments;
+		pictureElement.querySelector('.picture__comments').textContent = photoMassiveElem.comments[0].message;
 
 		return pictureElement;
 	}
 	//добавляем во fragment моканые фотографии
-	for (var j = 0; j < 25; j++) {
-		fragment.appendChild(createPictureElement(window.photoMassive[j]));
-
-	}
+	// for (var j = 0; j < 25; j++) {
+	// 	fragment.appendChild(createPictureElement(window.photoMassive[j]));
+	//
+	// }
 	// Отрисуйте сгенерированные DOM-элементы в блок .pictures. Для вставки
 	// элементов используйте DocumentFragment.
 	//добавляем фрагмент со всеми фотографиями на страницу
-	picturesList.appendChild(fragment);
+	window.backend.load(function(pictures) {
+		//console.log('ok');
+		var fragment = document.createDocumentFragment();
+		for (var i = 0; i < 25; i++) {
+			fragment.appendChild(createPictureElement(pictures[i]));
+			picturesList.appendChild(fragment);
+
+		}
+	},
+	function(str) {
+		 window.backend.createErrorPopup(str);
+	}
+);
 
 	// for (var j = 0; j < 25; j++) {
 	// 	var pictureElement = pictureTemlate.cloneNode(true);

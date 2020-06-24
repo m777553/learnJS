@@ -139,32 +139,39 @@
 	// }
 
 	//Используем функцию loader
-	var renderWizard = function(wizard) {
-		var wizardElementTemplate = document.querySelector('#similar-wizard-template').content;
-		//wizardElementTemplate.cloneNode(true);
-
-		var wizardElement = wizardElementTemplate.cloneNode(true);
-
-
-		wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-
-		wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
-		wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
-
-		return wizardElement;
+	var loadedWizards = [];
+	var errorFunc = function(str) {
+		window.backend.createErrorPopup(str);
 	};
-	window.backend.load(function(wizards) {
-		//console.log('ok');
+	var successFunc = function (wizards) {
+		loadedWizards = wizards;
+		console.log(loadedWizards);
 		var fragment = document.createDocumentFragment();
 		for (var i = 0; i < 4; i++) {
-			fragment.appendChild(renderWizard(wizards[i]));
+			fragment.appendChild(window.renderWizard(wizards[i]));
 			similarWizardList.appendChild(fragment);
 			document.querySelector('.setup-similar').classList.remove('hidden');
 		}
-	},
-	function(str) {
-		 window.backend.createErrorPopup(str);
 	}
-);
+
+	window.backend.load(
+		successFunc,//вынесла в отдельные модули функции работы с полученными данными. Тут они вызываются без параметров.
+		
+		// function(wizards) {
+		// 	//console.log('ok');
+		// 	loadedWizards = wizards;
+		// 	console.log(loadedWizards);
+		// 	var fragment = document.createDocumentFragment();
+		// 	for (var i = 0; i < 4; i++) {
+		// 		fragment.appendChild(window.renderWizard(wizards[i]));
+		// 		similarWizardList.appendChild(fragment);
+		// 		document.querySelector('.setup-similar').classList.remove('hidden');
+		// 	}
+		// },
+		errorFunc
+		// function(str) {
+		// 	window.backend.createErrorPopup(str);
+		// }
+	);
 
 })();

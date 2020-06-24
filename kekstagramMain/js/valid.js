@@ -267,8 +267,22 @@
 	//
 	// uploader.addEventListener('input', onTagsFieldValidate);
 
+	//отправка формы и закрытие окна редактирования
+	var form = document.querySelector('.img-upload__form');
+	var btnSubmit = document.querySelector('.img-upload__submit');
 
+	btnSubmit.addEventListener('submit', function(evt) {
+		window.backend.save(
+			new FormData(form),
+			function(response) {
+				editingForm.classList.add('hidden');
+				evt.preventDefault();
+			},
 
+			function(str) {
+				window.backend.createErrorPopup(str);
+			});
+	});
 
 
 
