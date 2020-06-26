@@ -138,25 +138,59 @@
 	// 	similarWizardList.appendChild(wizardElement);
 	// }
 
+
+
+
+	//создаём функцию для отрисовки новых похожих магов
+	window.renderSimilarWizards = function() {
+
+
+		var fragment = document.createDocumentFragment();
+		loadedWizards.sort(function(left, right) {
+			return getRank(right) - getRank(left);
+		});
+		//console.log(loadedWizards);
+		for (var i = 0; i < 4; i++) {
+			fragment.appendChild(window.renderWizard(loadedWizards[i]));
+			similarWizardList.appendChild(fragment);
+		}
+	};
 	//Используем функцию loader
 	var loadedWizards = [];
+	var getRank = function(wizard) {
+		var color = window.changes.newColor;
+
+		var rank = 0;
+		if (wizard.colorCoat === color) {
+			rank += 2;
+		}
+		if (wizard.colorEyes === 'black') {
+			rank += 1;
+		}
+		return rank;
+	};
 	var errorFunc = function(str) {
 		window.backend.createErrorPopup(str);
 	};
-	var successFunc = function (wizards) {
+	var successFunc = function(wizards) {
 		loadedWizards = wizards;
-		console.log(loadedWizards);
-		var fragment = document.createDocumentFragment();
-		for (var i = 0; i < 4; i++) {
-			fragment.appendChild(window.renderWizard(wizards[i]));
-			similarWizardList.appendChild(fragment);
-			document.querySelector('.setup-similar').classList.remove('hidden');
-		}
-	}
+		//	console.log(loadedWizards);
+
+		//Отрисовка первых четырёх магов из загрузки
+		// var fragment = document.createDocumentFragment();
+		// for (var i = 0; i < 4; i++) {
+		// 	fragment.appendChild(window.renderWizard(wizards[i]));
+		// 	similarWizardList.appendChild(fragment);
+		// 	document.querySelector('.setup-similar').classList.remove('hidden');
+		// }
+		window.renderSimilarWizards();
+
+		//console.log(loadedWizards+'2');
+	};
 
 	window.backend.load(
-		successFunc,//вынесла в отдельные модули функции работы с полученными данными. Тут они вызываются без параметров.
-		
+		successFunc, //вынесла в отдельные модули функции работы с полученными данными. Тут они вызываются без параметров.
+
 		// function(wizards) {
 		// 	//console.log('ok');
 		// 	loadedWizards = wizards;
@@ -173,5 +207,12 @@
 		// 	window.backend.createErrorPopup(str);
 		// }
 	);
+	// setTimeout(function() {
+	// 	console.log(loadedWizards);
+	// }, 1000);
+
+	var updateWizards = function() {
+
+	};
 
 })();

@@ -32,7 +32,7 @@
 
 
 
-	var coatColor = ['rgb(101, 137, 164)', ' rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', ' rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+	var coatColor = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 
 	var fireballColor = [
 		'#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'
@@ -43,33 +43,19 @@
 		return massive[Math.floor(Math.random() * massive.length)];
 	};
 
-	//функция смены цвета элемента с учетом изменения значения input для правильной отправки данных формы
-	var changeClothes = function(clothesElem, massive) {
-		var color = window.getRandomElement(massive);
-		clothesElem.style.fill = color;
-		var changedInput;
-		if (clothesElem == wizardCoat) {
-			changedInput = wizardCoatInput;
-			changedInput.value = color;
-		}
-	};
 
-	var changeFireball = function() {
-		var color = window.getRandomElement(fireballColor);
-		wizardFireballInput.value = color;
-		wizardFireball.style.background = color;
-		//alert(wizardFireball.value);
-	};
 	//changeFireball();
 
 
 	//вызов слушателя клика на элемент одежды
 	wizardCoat.addEventListener('click', function(evt) {
-		changeClothes(wizardCoat, coatColor);
+		window.changes.changeClothes(wizardCoat, coatColor);
 
 	});
 
-	wizardFireball.addEventListener('click', changeFireball);
+
+
+	wizardFireball.addEventListener('click', window.changes.changeFireball);
 
 
 })();
