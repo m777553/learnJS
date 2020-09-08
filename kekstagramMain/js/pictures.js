@@ -106,7 +106,16 @@
 		pictureElement.querySelector('.picture__comments').textContent = photoMassiveElem.comments[0].message;
 
 		return pictureElement;
-	}
+	};
+
+	window.loadedPicturs = [];
+	// var makePicturesMasive = function(picturs) {
+	// 	window.loadedPicturs = picturs;
+	//
+	// 	return window.loadedPicturs;
+	// };
+
+
 	//добавляем во fragment моканые фотографии
 	// for (var j = 0; j < 25; j++) {
 	// 	fragment.appendChild(createPictureElement(window.photoMassive[j]));
@@ -115,19 +124,33 @@
 	// Отрисуйте сгенерированные DOM-элементы в блок .pictures. Для вставки
 	// элементов используйте DocumentFragment.
 	//добавляем фрагмент со всеми фотографиями на страницу
-	window.backend.load(function(pictures) {
+	var onLoad = function(pictures) {
 		//console.log('ok');
+		//makePicturesMasive(pictures);
+		window.loadedPicturs = pictures;
 		var fragment = document.createDocumentFragment();
 		for (var i = 0; i < 25; i++) {
 			fragment.appendChild(createPictureElement(pictures[i]));
 			picturesList.appendChild(fragment);
 
 		}
-	},
-	function(str) {
-		 window.backend.createErrorPopup(str);
-	}
-);
+
+
+		console.log(window.loadedPicturs);
+		//После завершения загрузки изображений с сервера покажите блок .img-filters,
+		//убрав у него класс .img-filters--inactive
+		document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+
+
+
+	};
+
+
+	window.backend.load(onLoad, function(str) {
+		window.backend.createErrorPopup(str);
+	});
+	// window.pictures = window.makePicturesMasive();
+	// console.log(window.pictures);
 
 	// for (var j = 0; j < 25; j++) {
 	// 	var pictureElement = pictureTemlate.cloneNode(true);

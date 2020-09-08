@@ -23,7 +23,7 @@
 			new FormData(window.form),
 			function(response) {
 				document.querySelector('.setup').classList.add('hidden');
-
+//console.log('close');
 				evt.preventDefault();
 				//	});
 			}, //onLoad
