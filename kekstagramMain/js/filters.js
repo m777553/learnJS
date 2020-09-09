@@ -59,25 +59,39 @@
 	};
 	//функции обработки выбранного фильтра
 	var isDefaultRange = function(pictures) {
-
+		window.clearGallery();
+		window.updatePictures(window.loadedPicturs);
 	};
+
 	var isRandomRange = function(pictures) {
 
+		var randomArr = window.loadedPicturs.slice();
+
+		window.changeToRandomMassive(randomArr);
+		window.debounce(function() {
+			//console.log('debounce');
+			window.clearGallery();
+			window.updatePictures(randomArr);
+		});
+
 	};
+
 	var isDiscussedRange = function(pictures) {
-		console.log('discussed');
-		var discussedArr = window.loadedPicturs.slice(0, 10);
+		window.clearGallery();
+		var discussedArr = window.loadedPicturs.slice();
 		//discussedArr.slice(0, 9);
 		discussedArr.sort(function(a, b) {
-			return b.likes - a.likes;
-		});
-		console.log(discussedArr);
-		console.log(window.loadedPicturs);
+			return b.comments.length - a.comments.length;
+		}).splice(10);
+		window.updatePictures(discussedArr);
+		//console.log(discussedArr);
+		//console.log(randomArr[0].comments.length);
+
 	};
 
 
 
-
+	//Внешний вид кнопок
 	var filtersForm = document.querySelector('.img-filters__form');
 	var filtersBtn = document.querySelectorAll('.img-filters__button');
 
@@ -96,10 +110,18 @@
 	};
 
 	filtersForm.addEventListener('click', onFilterClick);
-	setTimeout(function() {
-		console.log(window.loadedPicturs);
-	}, 300);
+	// setTimeout(function() {
+	// 	console.log(window.loadedPicturs);
+	// }, 300);
 
+	//клик на по умолчанию фото
+	filters.default.addEventListener('click', isDefaultRange);
+
+
+	//клик на случайные фото
+	filters.random.addEventListener('click', isRandomRange);
+
+	//клик на обсуждаемые фото
 	filters.discussed.addEventListener('click', isDiscussedRange);
 
 
