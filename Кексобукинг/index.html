@@ -102,12 +102,12 @@
 
       <fieldset class="form__element form__element--wide">
         <label for="title">Заголовок объявления</label>
-        <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио">
+        <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" minlength="30" maxlength="100" required>
       </fieldset>
 
       <fieldset class="form__element form__element--wide">
         <label for="address">Адрес</label>
-        <input id="address" name="address" type="text">
+        <input id="address" name="address" type="text" readonly>
       </fieldset>
 
       <fieldset class="form__element">
@@ -122,7 +122,7 @@
 
       <fieldset class="form__element">
         <label for="price">Цена за ночь, руб.</label>
-        <input id="price" name="price" type="number" placeholder="5000">
+        <input id="price" name="price" type="number" placeholder="5000" max="100000" step="100"  required>
       </fieldset>
 
       <fieldset class="form__element">
@@ -174,8 +174,8 @@
         <input type="checkbox" name="features" value="washer" id="feature-washer">
         <label class="feature feature--washer" for="feature-washer">Стиральная машина</label>
 
-        <input type="checkbox" name="features" value="elevator" id="feature-washer">
-        <label class="feature feature--elevator" for="feature-washer">Лифт</label>
+        <input type="checkbox" name="features" value="elevator" id="feature-elevator">
+        <label class="feature feature--elevator" for="feature-elevator">Лифт</label>
 
         <input type="checkbox" name="features" value="conditioner" id="feature-conditioner">
         <label class="feature feature--conditioner" for="feature-conditioner">Кондиционер</label>
@@ -247,5 +247,9 @@
 
 
 <script src="js/map.js"></script>
+<script src="js/open.js"></script>
+<script src="js/drag_and_drop.js"></script>
+<script src="js/pin.js"></script>
+<script src="js/valid.js"></script>
 </body>
 </html>

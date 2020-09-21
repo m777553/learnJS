@@ -87,6 +87,7 @@
 
 
 	//Разделение однм пробелом, без запятых
+//TRUE если проверку не проходит, невалидно
 	var isBadTagsSeparation = function(array) {
 		for (var i = 0; i < array.length; i++) {
 			if (array[i].indexOf(',') !== -1 || array[i] === "") {

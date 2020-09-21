@@ -25,7 +25,7 @@
 	// чтобы слайдер можно было двигать только горизонтально и при этом движение
 	// должно быть ограничено пределами слайдера.
 
-	//////САША ПОМОГИ МНЕ!!!! СЛАЙДЕР ДУРИТ ((((( Пытаюсь сделать так, чтобы бегунок не уходил за пределы полосы, но... если ставлю нестрогое равенство или равенство - он замирает навечно
+
 
 	var pinHendler = document.querySelector('.effect-level__pin');
 	var pinLine = document.querySelector('.effect-level__line');
@@ -103,9 +103,9 @@
 			moveEvt.preventDefault();
 			dragged = true;
 
-			var newStartCords = {
-				x: evt.clientX
-			};
+			// var newStartCords = {
+			// 	x: evt.clientX
+			// };
 
 			var shift = {
 				x: startCords.x - moveEvt.clientX
