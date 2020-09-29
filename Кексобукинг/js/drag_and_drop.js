@@ -5,7 +5,7 @@
 	var map = document.querySelector('.map');
 
 
-
+	window.adress = document.querySelector('#address');
 
 	//Создание универсальной функции пина drag and drop
 
@@ -124,6 +124,8 @@
 			};
 
 
+
+
 			if (window.changedLvl.x <= 0) {
 				window.changedLvl.x = 1;
 			} else if (window.changedLvl.x >= 1201) {
@@ -133,6 +135,8 @@
 			} else if (window.changedLvl.y > 630) {
 				window.changedLvl.y = 630;
 			}
+
+			window.adress.value = `${window.changedLvl.x};${window.changedLvl.y}`;
 			//console.log(window.changedLvl.x + ';' + window.changedLvl.y);
 
 		};
@@ -147,11 +151,12 @@
 
 			//выгружать значения надо при отпускании мыши ЕСЛИ она двигалась
 			if (dragged) {
+				window.isAbleSite();
 
-				for (var i = 0; i < window.formElements.length; i++) {
-					window.formElements[i].removeAttribute("disabled", "disabled");
-				}
-				document.querySelector('.notice__form').classList.remove('notice__form--disabled');
+				// for (var i = 0; i < window.formElements.length; i++) {
+				// 	window.formElements[i].removeAttribute("disabled", "disabled");
+				// }
+				// document.querySelector('.notice__form').classList.remove('notice__form--disabled');
 				//console.log(window.changedLvl.x + ';' + window.changedLvl.y);
 			}
 			// if (dragged) {
