@@ -26,6 +26,26 @@
 		return newPin;
 	};
 
+	window.loadedArray = [];
+
+	window.load(function(arr) {
+		// for (var i = 0; i < arr.length; i++) {
+		// 	window.loadedArray[i] = arr[i];
+		// }
+		window.loadedArray = arr;
+		console.log(window.loadedArray);
+	}, function(str) {
+		window.createTextPopup(str);
+	});
+
+
+// setTimeout(function () {
+// 	console.log(window.loadedArray);
+// }, 7000);
+
+
+
+
 	var mockPinMassive = [];
 	//Как должен выглядеть элемент
 	// var mockPinElement = {
@@ -59,7 +79,7 @@
 	//console.log(mockPinMassive);
 
 
-	var makeFullFragment = function() {
+	window.makeFullFragment = function() {
 		var fragment = document.createDocumentFragment();
 		for (var i = 0; i < 7; i++) {
 			fragment.appendChild(createPinButton(mockPinMassive[i]));
@@ -68,7 +88,7 @@
 		mapPins.appendChild(fragment);
 	}
 
-	makeFullFragment();
+	//makeFullFragment();
 
 
 

@@ -9,13 +9,14 @@
 
 	var onResetClick = function(evt) {
 		evt.preventDefault();
+		
 		form.reset();
 		pin.style.left = 50 + '%';
 		pin.style.top = 50 + '%';
 
 		window.adress.value = '300;600';
 
-			//window.adress.value = `${window.changedLvl.x};${window.changedLvl.y}`;
+		//window.adress.value = `${window.changedLvl.x};${window.changedLvl.y}`;
 	};
 
 

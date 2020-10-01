@@ -27,7 +27,7 @@
 	// 	map.classList.remove('map--faded');
 	// }
 	window.isAbleSite = function() {
-
+		window.makeFullFragment();
 
 		for (var i = 0; i < window.formElements.length; i++) {
 			window.formElements[i].removeAttribute("disabled", "disabled");
