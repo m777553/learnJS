@@ -14,11 +14,7 @@
 		document.querySelector('.notice__form').reset();
 
 		if (map.querySelector('.js-num')) {
-			var pins = [];
-			pins = map.querySelectorAll('.js-num');
-			for (var i = 0; i < pins.length; i++) {
-				pins[i].remove();
-			}
+			window.clearPin();
 		}
 
 		document.querySelector('.notice__form').classList.add('notice__form--disabled');
