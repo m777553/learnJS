@@ -1,5 +1,6 @@
 'use strict';;
 (function() {
+	var MAX_PIN_QUANTITY = 5;
 
 	window.integerMinMax = function(min, max) {
 		return Math.round(Math.random() * (max - min) + min)
@@ -137,7 +138,7 @@
 
 	window.makeFullFragment = function(arrPin) {
 		var fragment = document.createDocumentFragment();
-		for (var i = 0; i < arrPin.length; i++) {
+		for (var i = 0; i < MAX_PIN_QUANTITY; i++) {
 			var pin = createPinButton(arrPin[i]);
 			pin.classList.add(`js-num--${i}`);
 			fragment.appendChild(pin);

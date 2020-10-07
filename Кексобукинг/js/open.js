@@ -6,6 +6,24 @@
 
 		map.classList.add('map--faded');
 
+
+
+		var pin = map.querySelector('.map__pin--main');
+		pin.style.left = '600px';
+		pin.style.top = '375px';
+		document.querySelector('.notice__form').reset();
+
+		if (map.querySelector('.js-num')) {
+			var pins = [];
+			pins = map.querySelectorAll('.js-num');
+			for (var i = 0; i < pins.length; i++) {
+				pins[i].remove();
+			}
+		}
+
+		document.querySelector('.notice__form').classList.add('notice__form--disabled');
+
+
 		window.formElements = document.querySelectorAll('.form__element');
 		//console.log(formElements);
 		//Пример

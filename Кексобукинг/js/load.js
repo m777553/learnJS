@@ -3,7 +3,6 @@
 
 	var URL = {
 		load: 'https://javascript.pages.academy/keksobooking/data',
-		upload: 'https://javascript.pages.academy/keksobooking',
 	};
 
 
@@ -44,26 +43,6 @@
 	};
 
 
-	window.upload = function(data, onLoad, onError) {
-		var xhr = new XMLHttpRequest();
-
-		xhr.addEventListener('load', function() {
-			if (xhr.status === 200) {
-				onLoad(xhr.response);
-			} else {
-				onError('Статус ответа ' + xhr.status + ' ' + xhr.statusText);
-			}
-
-		});
-
-		xhr.open('POST', URL.upload);
-
-		xhr.send(data);
-
-
-
-
-	};
 
 
 

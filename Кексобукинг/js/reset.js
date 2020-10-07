@@ -7,20 +7,20 @@
 
 	var pin = document.querySelector('.map__pin');
 
-	var onResetClick = function(evt) {
+	window.onResetClick = function(evt) {
 		evt.preventDefault();
-		
-		form.reset();
-		pin.style.left = 50 + '%';
-		pin.style.top = 50 + '%';
 
-		window.adress.value = '300;600';
+		form.reset();
+		pin.style.left = '600px';
+		pin.style.top = '375px';
+
+		window.adress.value = '375; 600';
 
 		//window.adress.value = `${window.changedLvl.x};${window.changedLvl.y}`;
 	};
 
 
-	resetBtn.addEventListener('click', onResetClick);
+	resetBtn.addEventListener('click', window.onResetClick);
 
 
 
