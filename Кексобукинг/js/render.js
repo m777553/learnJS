@@ -50,7 +50,7 @@
 
 		var featuresArr = newPopup.querySelectorAll('.feature');
 		//console.log(featuresArr);
-		for (var n = 0; n< featuresArr.length; n++){
+		for (var n = 0; n < featuresArr.length; n++) {
 			featuresArr[n].remove();
 		};
 		for (var i = 0; i < arrayElement.offer.features.length; i++) {
@@ -83,17 +83,7 @@
 	};
 
 
-	window.loadedArray = [];
 
-	window.load(function(arr) {
-		// for (var i = 0; i < arr.length; i++) {
-		// 	window.loadedArray[i] = arr[i];
-		// }
-		window.loadedArray = arr;
-		//console.log(window.loadedArray);
-	}, function(str) {
-		window.createTextPopup(str);
-	});
 
 
 	// setTimeout(function () {
@@ -138,7 +128,14 @@
 
 	window.makeFullFragment = function(arrPin) {
 		var fragment = document.createDocumentFragment();
-		for (var i = 0; i < MAX_PIN_QUANTITY; i++) {
+		var arrLength = MAX_PIN_QUANTITY;
+		if (arrPin.length < MAX_PIN_QUANTITY) {
+			arrLength = arrPin.length;
+		}
+		// } else {
+		//
+		// }
+		for (var i = 0; i < arrLength; i++) {
 			var pin = createPinButton(arrPin[i]);
 			pin.classList.add(`js-num--${i}`);
 			fragment.appendChild(pin);

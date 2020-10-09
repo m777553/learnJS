@@ -20,7 +20,11 @@
 			}
 			//ОТКЛЮЧИЛА удаляем обработчик, если попап открыт. Вернём при закрытии
 			// mapPins.removeEventListener('click', onPinClick);
-			window.makeFullPopup(window.loadedArray, num);
+			var arr = window.loadedArray;
+			if(window.smallLoadedArrayCopy){
+				arr = window.smallLoadedArrayCopy;
+			};
+			window.makeFullPopup(arr, num);
 			document.addEventListener('keydown', onPopupEscPress);
 
 			//Закрытие на крестик

@@ -1,5 +1,6 @@
 'use strict';;
 (function() {
+	//console.log(1);
 
 	var URL = {
 		load: 'https://javascript.pages.academy/keksobooking/data',
@@ -44,7 +45,17 @@
 
 
 
+	window.loadedArray = [];
 
+	window.load(function(arr) {
+		// for (var i = 0; i < arr.length; i++) {
+		// 	window.loadedArray[i] = arr[i];
+		// }
+		window.loadedArray = arr;
+		console.log(window.loadedArray);
+	}, function(str) {
+		window.createTextPopup(str);
+	});
 
 
 
