@@ -13,3 +13,17 @@ node_modules/
 
 # Папка с собранными файлами проекта
 build/
+
+# Файлы и папки операционной системы
+.DS_Store
+Thumbs.db
+
+# Файлы редактора
+.idea
+*.sublime*
+.vscode
+
+
+# Собранные JS-файлы (бандл)
+public/bundle.js
+public/bundle.js.map
