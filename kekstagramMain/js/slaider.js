@@ -38,7 +38,7 @@
 		var dragged = false;
 		//getComputedStyle(pinHendler).cursor = 'pointer';
 		pinHendler.style.cursor = 'pointer';
-		var effectLevelLineWidth = getComputedStyle(effectLevelLine).width;
+		//var effectLevelLineWidth = getComputedStyle(effectLevelLine).width;
 
 		var startCords = {
 			x: evt.clientX

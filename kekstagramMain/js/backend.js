@@ -66,7 +66,7 @@
 
 
 			var errorPopup = document.createElement('div');
-			errorPopup.classList.remove('hidden');
+			//errorPopup.classList.remove('hidden');
 
 			errorPopup.textContent = str;
 			errorPopup.style.padding = "20px";
