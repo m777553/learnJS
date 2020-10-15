@@ -24,7 +24,13 @@ import {
 	createSiteLoadBtnTemplate
 } from "./view/load-btn.js";
 
-const TASKS_CONT = 3;
+//mock генерации данных фильтра
+import {
+	generateFilters
+} from "./mock/filter.js";
+
+
+const TASKS_COUNT = 3;
 
 //Функция принимает контейнер для вставки, разметку в виде строки  и положение
 const render = (container, template, place) => {
@@ -37,7 +43,13 @@ const siteMenuElem = siteMainElem.querySelector(`.main__control`);
 
 render(siteMenuElem, createSiteMenuTemplate(), `beforeend`);
 
-render(siteMainElem, createSiteFilterTemplate(), `beforeend`);
+
+
+const filters = generateFilters();
+const tasks = generateTasks(TASKS_COUNT);
+
+
+render(siteMainElem, createSiteFilterTemplate(filters), `beforeend`);
 render(siteMainElem, createSiteBoardContainerTemplate(), `beforeend`);
 
 const boardContainer = siteMainElem.querySelector('.board');
@@ -46,11 +58,11 @@ const boardContainer = siteMainElem.querySelector('.board');
 
 const tasksContainer = boardContainer.querySelector('.board__tasks');
 
-for (let i = 0; i < TASKS_CONT; i++) {
+for (let i = 1; i < tasks.length; i++) {
 	render(tasksContainer, createSiteCardTemplate(), `afterbegin`);
 }
 
 
-render(tasksContainer, createSiteTaskFormEditTemplate(), `afterbegin`);
+render(tasksContainer, createSiteTaskFormEditTemplate(tasks[0]), `afterbegin`);
 
 render(boardContainer, createSiteLoadBtnTemplate(), `beforeend`);

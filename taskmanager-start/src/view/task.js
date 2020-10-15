@@ -1,5 +1,6 @@
 'use strict';
-export const createSiteCardTemplate = () => {
+export const createSiteCardTemplate = (task) => {
+	const {} = task;
 	return (
 		`<article class="card card--black">
             <div class="card__form">
@@ -16,15 +17,24 @@ export const createSiteCardTemplate = () => {
                   </button>
                 </div>
 
+
+
+
                 <div class="card__color-bar">
                   <svg class="card__color-bar-wave" width="100%" height="10">
                     <use xlink:href="#wave"></use>
                   </svg>
                 </div>
 
+
+
+
                 <div class="card__textarea-wrap">
                   <p class="card__text">Example default task with default color.</p>
                 </div>
+
+
+
 
                 <div class="card__settings">
                   <div class="card__details">
@@ -37,6 +47,9 @@ export const createSiteCardTemplate = () => {
                     </div>
                   </div>
                 </div>
+
+
+
               </div>
             </div>
           </article>`
