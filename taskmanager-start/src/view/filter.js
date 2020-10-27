@@ -4,7 +4,7 @@ const createFilterMarkup = (filter, isChecked) => {
 
   // деструкция элемента массива по ключам чтобы потом писать не filters.name, filters.count , а просто filter
   const {name, count} = filter;
-  console.log(filter);
+
   return (
     `<input
 			type="radio"

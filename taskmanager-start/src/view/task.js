@@ -1,3 +1,8 @@
+// import {
+//   date,
+//   time
+// } from "./time.js";
+
 export const createSiteCardTemplate = (task) => {
 	const {
 		description,
@@ -8,7 +13,7 @@ export const createSiteCardTemplate = (task) => {
 		isArchive
 	} = task;
 
-	//чтение даты в человеческом формате
+	// чтение даты в человеческом формате
 	const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
 		day: `numeric`,
 		month: `long`
@@ -19,33 +24,44 @@ export const createSiteCardTemplate = (task) => {
 	}) : ``;
 
 
-	//Опишем функцию, которая будет проверять, просрочена ли задача
-	const isExpired = (dueDate) => {
-		if (dueDate === null) {
+	// Опишем функцию, которая будет проверять, просрочена ли задача
+	const isExpired = (someDate) => {
+		if (someDate === null) {
 			return false;
 		}
 
 		let currentDate = new Date();
 		currentDate.setHours(23, 59, 59, 999);
-		currentDate = new Date(currentDate);
+		//currentDate = new Date(currentDate);
 		return currentDate.getTime() > dueDate.getTime();
 	};
+	// классы для просроченных, архивных и любимых дел
+	const deadlineClassName = isExpired(dueDate) ? `card--deadline` : ``;
+	const archiveClassName = isArchive ? `card__btn--archive` : `card__btn--archive card__btn--disabled`;
 
-const deadlineClassName = isExpired(dueDate) ? `card--deadline`
-    : ``;
+	const favoriteClassName = isFavorite ? `card__btn--favorites` : `card__btn--favorites card__btn--disabled`;
+
+	//повторяемость задачи
+	const isRepeating = (repeating) => {
+		return Object.values(repeating).some(Boolean);
+	};
+
+	const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+
+
 
 	return (
-		`<article class="card card--${color} ${repeatingDays} ${deadlineClassName}">
+		`<article class="card card--${color} ${repeatinClassName} ${deadlineClassName}">
             <div class="card__form">
               <div class="card__inner">
                 <div class="card__control">
                   <button type="button" class="card__btn card__btn--edit">
                     edit
                   </button>
-                  <button type="button" class="card__btn card__btn--archive ${isArchive}">
+                  <button type="button" class="card__btn ${archiveClassName}">
                     archive
                   </button>
-                  <button type="button" class="card__btn card__btn--favorites card__btn--disabled ${isFavorite}">
+                  <button type="button" class="card__btn  ${favoriteClassName}">
                     favorites
                   </button>
                 </div>

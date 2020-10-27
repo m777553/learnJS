@@ -29,12 +29,12 @@ import {
   generateFilters
 } from "./mock/filter.js";
 
-//mock генерация данных задачи
+// mock генерация данных задачи
 import {
   generateTasks
 } from "./mock/task.js";
 
-const TASKS_COUNT = 3;
+const TASKS_COUNT = 4;
 
 // Функция принимает контейнер для вставки, разметку в виде строки  и положение
 const render = (container, template, place) => {

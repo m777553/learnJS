@@ -246,6 +246,7 @@ body {
   margin-right: 9px;
 }
 .card__btn--archive {
+  /* color: black; */
   margin-right: auto;
 }
 .card__btn--disabled {

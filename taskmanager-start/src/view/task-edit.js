@@ -4,6 +4,8 @@ import {
   createRepeatingDaysMarkup
 } from "./days_and_colors_markup.js";
 
+
+
 export const createSiteTaskFormEditTemplate = (task) => {
   const {
     description,
@@ -17,6 +19,16 @@ export const createSiteTaskFormEditTemplate = (task) => {
 
   const colorsMarkup = createColorsMarkup();
   const repeatingDaysMarkup = createRepeatingDaysMarkup();
+
+  // чтение даты в человеческом формате
+  const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+    day: `numeric`,
+    month: `long`
+  }) : ``;
+  const time = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+    hour: `numeric`,
+    minute: `numeric`
+  }) : ``;
 
 
   return (
@@ -44,7 +56,7 @@ export const createSiteTaskFormEditTemplate = (task) => {
 
                       <fieldset class="card__date-deadline">
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="" name="date" value="23 September 16:15">
+                          <input class="card__date" type="text" placeholder="" name="date" value="${date} ${time}">
                         </label>
                       </fieldset>
 
