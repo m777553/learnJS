@@ -59,7 +59,7 @@ const boardContainer = siteMainElem.querySelector('.board');
 const tasksContainer = boardContainer.querySelector('.board__tasks');
 
 for (let i = 1; i < tasks.length; i++) {
-	render(tasksContainer, createSiteCardTemplate(), `afterbegin`);
+	render(tasksContainer, createSiteCardTemplate(tasks[i]), `afterbegin`);
 }
 
 
