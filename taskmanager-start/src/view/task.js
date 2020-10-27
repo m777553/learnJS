@@ -1,15 +1,41 @@
-
 export const createSiteCardTemplate = (task) => {
-  const {
-    description,
-    dueDate,
-    repeatingDays,
-    color,
-    isFavorite,
-    isArchive
-  } = task;
-  return (
-    `<article class="card card--${color} ${repeatingDays}">
+	const {
+		description,
+		dueDate,
+		repeatingDays,
+		color,
+		isFavorite,
+		isArchive
+	} = task;
+
+	//чтение даты в человеческом формате
+	const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+		day: `numeric`,
+		month: `long`
+	}) : ``;
+	const time = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+		hour: `numeric`,
+		minute: `numeric`
+	}) : ``;
+
+
+	//Опишем функцию, которая будет проверять, просрочена ли задача
+	const isExpired = (dueDate) => {
+		if (dueDate === null) {
+			return false;
+		}
+
+		let currentDate = new Date();
+		currentDate.setHours(23, 59, 59, 999);
+		currentDate = new Date(currentDate);
+		return currentDate.getTime() > dueDate.getTime();
+	};
+
+const deadlineClassName = isExpired(dueDate) ? `card--deadline`
+    : ``;
+
+	return (
+		`<article class="card card--${color} ${repeatingDays} ${deadlineClassName}">
             <div class="card__form">
               <div class="card__inner">
                 <div class="card__control">
@@ -48,8 +74,8 @@ export const createSiteCardTemplate = (task) => {
                     <div class="card__dates">
                       <div class="card__date-deadline">
                         <p class="card__input-deadline-wrap">
-                          <span class="card__date">${dueDate}</span>
-                          <span class="card__time">${dueDate}</span>
+                          <span class="card__date">${date}</span>
+                          <span class="card__time">${time}</span>
                         </p>
                       </div>
                     </div>
@@ -61,5 +87,5 @@ export const createSiteCardTemplate = (task) => {
               </div>
             </div>
           </article>`
-  );
+	);
 };
