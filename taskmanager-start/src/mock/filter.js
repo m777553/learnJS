@@ -1,16 +1,17 @@
 const filterNames = [
-	`all`, `Overdue`, `Today`, `Favorites`, `Repeating`, `Archive`,
+  `all`, `Overdue`, `Today`, `Favorites`, `Repeating`, `Archive`,
 ];
 
+
 const generateFilters = () => {
-	return filterNames.map((it) => {
-		return {
-			name: it,
-			count: Math.floor(Math.random() * 18),
-		};
-	});
+  return filterNames.map((it) => {
+    return {
+      name: it,
+      count: Math.floor(Math.random() * 18),
+    };
+  });
 };
 
 export {
-	generateFilters
+  generateFilters
 };

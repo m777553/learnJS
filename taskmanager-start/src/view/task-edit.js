@@ -1,27 +1,26 @@
-'use strict';
+
 import {
-	createColorsMarkup,
-	createRepeatingDaysMarkup
-} from `./days_and_colors.js`;
+  createColorsMarkup,
+  createRepeatingDaysMarkup
+} from "./days_and_colors_markup.js";
 
 export const createSiteTaskFormEditTemplate = (task) => {
-	const {
-		description,
-		dueDate,
-		repeatingDays,
-		color,
-		isFavorite,
-		isArchive
-	} = task;
+  const {
+    description,
+    dueDate,
+    repeatingDays,
+    color,
+    isFavorite,
+    isArchive
+  } = task;
 
 
-	const colorsMarkup = createColorsMarkup();
-	const repeatingDaysMarkup = createRepeatingDaysMarkup();
+  const colorsMarkup = createColorsMarkup();
+  const repeatingDaysMarkup = createRepeatingDaysMarkup();
 
 
-
-	return (
-		`<article class="card card--edit card--${color} ${repeatingDays}">
+  return (
+    `<article class="card card--edit card--${color} ${repeatingDays}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__color-bar">
@@ -32,7 +31,7 @@ export const createSiteTaskFormEditTemplate = (task) => {
 
                 <div class="card__textarea-wrap">
                   <label>
-                    <textarea class="card__text" placeholder="Start typing your text here..." name="text">This is example of task edit. You can set date and chose repeating days and color.</textarea>
+                    <textarea class="card__text" placeholder="Start typing your text here..." name="text">${description}</textarea>
                   </label>
                 </div>
 
@@ -76,5 +75,5 @@ export const createSiteTaskFormEditTemplate = (task) => {
               </div>
             </form>
           </article>`
-	);
+  );
 };

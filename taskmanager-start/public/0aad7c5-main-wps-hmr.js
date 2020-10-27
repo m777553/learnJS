@@ -1,3 +1,16 @@
+webpackHotUpdate("main",{
+
+/***/ "./src/mock/task.js":
+/*!**************************!*\
+  !*** ./src/mock/task.js ***!
+  \**************************/
+/*! exports provided: generateTask, generateTasks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateTask", function() { return generateTask; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateTasks", function() { return generateTasks; });
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -51,7 +64,7 @@ const generateRepeatingDays = () => {
   };
 };
 
-export const generateTask = () => {
+const generateTask = () => {
   const dueDate = generateDate();
   const repeatingDays = dueDate === null ? generateRepeatingDays() : {
     mo: false,
@@ -73,6 +86,12 @@ export const generateTask = () => {
   };
 };
 
-export const generateTasks = (count) => {
+const generateTasks = (count) => {
   return new Array(count).fill(``).map(generateTask);
 };
+
+
+/***/ })
+
+})
+//# sourceMappingURL=0aad7c5-main-wps-hmr.js.map

@@ -1,15 +1,15 @@
-'use strict';
+
 export const createSiteCardTemplate = (task) => {
-	const {
-		description,
-		dueDate,
-		repeatingDays,
-		color,
-		isFavorite,
-		isArchive
-	} = task;
-	return (
-		`<article class="card card--${color} ${repeating}">
+  const {
+    description,
+    dueDate,
+    repeatingDays,
+    color,
+    isFavorite,
+    isArchive
+  } = task;
+  return (
+    `<article class="card card--${color} ${repeatingDays}">
             <div class="card__form">
               <div class="card__inner">
                 <div class="card__control">
@@ -61,5 +61,5 @@ export const createSiteCardTemplate = (task) => {
               </div>
             </div>
           </article>`
-	);
+  );
 };
