@@ -34,7 +34,7 @@ import {
   generateTasks
 } from "./mock/task.js";
 
-const TASKS_COUNT = 4;
+const TASKS_COUNT = 8;
 
 // Функция принимает контейнер для вставки, разметку в виде строки  и положение
 const render = (container, template, place) => {
