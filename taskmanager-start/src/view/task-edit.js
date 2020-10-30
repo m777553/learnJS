@@ -1,41 +1,42 @@
 import {
-	createColorsMarkup,
-	createRepeatingDaysMarkup
+  createColorsMarkup,
+  createRepeatingDaysMarkup
 } from "./days_and_colors_markup.js";
 
 
-
 export const createSiteTaskFormEditTemplate = (task) => {
-	const {
-		description,
-		dueDate,
-		repeatingDays,
-		color,
-		isFavorite,
-		isArchive
-	} = task;
+  const {
+    description,
+    dueDate,
+    repeatingDays,
+    color,
+    isFavorite,
+    isArchive
+  } = task;
 
-	if (!description) ``;
-	const colorsMarkup = createColorsMarkup();
-	const repeatingDaysMarkup = createRepeatingDaysMarkup();
+  if (!description) {
+    ``;
+  }
+  const colorsMarkup = createColorsMarkup();
+  const repeatingDaysMarkup = createRepeatingDaysMarkup(repeatingDays);
 
-	// чтение даты в человеческом формате
-	const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
-		day: `numeric`,
-		month: `long`
-	}) : ``;
-	const time = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
-		hour: `numeric`,
-		minute: `numeric`
-	}) : ``;
-	//повторяемость задачи
-	const isRepeating = (repeating) => {
-		return Object.values(repeating).some(Boolean);
-	};
-	//console.log(repeatingDays);
+  // чтение даты в человеческом формате
+  const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+    day: `numeric`,
+    month: `long`
+  }) : ``;
+  const time = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+    hour: `numeric`,
+    minute: `numeric`
+  }) : ``;
+  // повторяемость задачи
+  const isRepeating = (repeating) => {
+    return Object.values(repeating).some(Boolean);
+  };
+  // console.log(repeatingDays);
 
-	return (
-		`<article class="card card--edit card--${color} ${repeatingDays}">
+  return (
+    `<article class="card card--edit card--${color} ${repeatingDays}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__color-bar">
@@ -64,7 +65,7 @@ export const createSiteTaskFormEditTemplate = (task) => {
                       </fieldset>
 
                       <button class="card__repeat-toggle" type="button">
-                        repeat:<span class="card__repeat-status">${isRepeating(repeatingDays)?`yes`:`no`}</span>
+                        repeat:<span class="card__repeat-status">${isRepeating(repeatingDays) ? `yes` : `no`}</span>
                       </button>
 
                       <fieldset class="card__repeat-days">
@@ -90,5 +91,5 @@ export const createSiteTaskFormEditTemplate = (task) => {
               </div>
             </form>
           </article>`
-	);
+  );
 };

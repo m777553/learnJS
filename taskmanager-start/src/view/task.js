@@ -4,54 +4,53 @@
 // } from "./time.js";
 
 export const createSiteCardTemplate = (task) => {
-	const {
-		description,
-		dueDate,
-		repeatingDays,
-		color,
-		isFavorite,
-		isArchive
-	} = task;
+  const {
+    description,
+    dueDate,
+    repeatingDays,
+    color,
+    isFavorite,
+    isArchive
+  } = task;
 
-	// чтение даты в человеческом формате
-	const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
-		day: `numeric`,
-		month: `long`
-	}) : ``;
-	const time = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
-		hour: `numeric`,
-		minute: `numeric`
-	}) : ``;
-
-
-	// Опишем функцию, которая будет проверять, просрочена ли задача
-	const isExpired = (someDate) => {
-		if (someDate === null) {
-			return false;
-		}
-
-		let currentDate = new Date();
-		currentDate.setHours(23, 59, 59, 999);
-		//currentDate = new Date(currentDate);
-		return currentDate.getTime() > dueDate.getTime();
-	};
-	// классы для просроченных, архивных и любимых дел
-	const deadlineClassName = isExpired(dueDate) ? `card--deadline` : ``;
-	const archiveClassName = isArchive ? `card__btn--archive` : `card__btn--archive card__btn--disabled`;
-
-	const favoriteClassName = isFavorite ? `card__btn--favorites` : `card__btn--favorites card__btn--disabled`;
-
-	//повторяемость задачи
-	const isRepeating = (repeating) => {
-		return Object.values(repeating).some(Boolean);
-	};
-
-	const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+  // чтение даты в человеческом формате
+  const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+    day: `numeric`,
+    month: `long`
+  }) : ``;
+  const time = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
+    hour: `numeric`,
+    minute: `numeric`
+  }) : ``;
 
 
+  // Опишем функцию, которая будет проверять, просрочена ли задача
+  const isExpired = (someDate) => {
+    if (someDate === null) {
+      return false;
+    }
 
-	return (
-		`<article class="card card--${color} ${repeatinClassName} ${deadlineClassName}">
+    let currentDate = new Date();
+    currentDate.setHours(23, 59, 59, 999);
+    // currentDate = new Date(currentDate);
+    return currentDate.getTime() > dueDate.getTime();
+  };
+  // классы для просроченных, архивных и любимых дел
+  const deadlineClassName = isExpired(dueDate) ? `card--deadline` : ``;
+  const archiveClassName = isArchive ? `card__btn--archive` : `card__btn--archive card__btn--disabled`;
+
+  const favoriteClassName = isFavorite ? `card__btn--favorites` : `card__btn--favorites card__btn--disabled`;
+
+  // повторяемость задачи
+  const isRepeating = (repeating) => {
+    return Object.values(repeating).some(Boolean);
+  };
+
+  const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+
+
+  return (
+    `<article class="card card--${color} ${repeatinClassName} ${deadlineClassName}">
             <div class="card__form">
               <div class="card__inner">
                 <div class="card__control">
@@ -103,5 +102,5 @@ export const createSiteCardTemplate = (task) => {
               </div>
             </div>
           </article>`
-	);
+  );
 };
