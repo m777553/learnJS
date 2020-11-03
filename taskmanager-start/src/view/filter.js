@@ -1,4 +1,4 @@
-
+import {createMyElement} from "../utils.js";
 
 const createFilterMarkup = (filter, isChecked) => {
 
@@ -19,7 +19,7 @@ const createFilterMarkup = (filter, isChecked) => {
   );
 };
 
-export const createSiteFilterTemplate = (filters) => {
+const createSiteFilterTemplate = (filters) => {
 
   const filtersMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
   return (
@@ -29,3 +29,27 @@ export const createSiteFilterTemplate = (filters) => {
 		</section>`
   );
 };
+
+
+export default class FilterMenu {
+	constructor(filters) {
+		this._filters = filters;
+
+		this._element = null;
+	}
+
+	getTemplate() {
+		return createSiteFilterTemplate(this._filters);
+	}
+
+	getElement() {
+		if (!this._element) {
+			this._element = createMyElement(this.getTemplate());
+		}
+		return this._element;
+	}
+
+	removeElement() {
+		this._element = null;
+	}
+}
