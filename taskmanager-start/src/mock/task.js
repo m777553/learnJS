@@ -1,9 +1,7 @@
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
+import {COLORS as colors} from "./../const.js";
 
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+import {getRandomInteger} from "./../utils.js";
+
 
 const generateDescription = () => {
   const descriptions = [
@@ -17,8 +15,9 @@ const generateDescription = () => {
   return descriptions[randomIndex];
 };
 
-const generateColor = () => {
-  const colors = [`black`, `green`, `pink`, `orange`, `yellow`, `blue`, `red`];
+
+export const generateColor = () => {
+
   const randomIndex = getRandomInteger(0, colors.length - 1);
   return colors[randomIndex];
 };

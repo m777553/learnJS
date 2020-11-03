@@ -2,7 +2,7 @@
 
 const createFilterMarkup = (filter, isChecked) => {
 
-  // деструкция элемента массива по ключам чтобы потом писать не filters.name, filters.count , а просто filter
+  // деструкция элемента массива по ключам чтобы потом писать не filters.name, filters.count , а просто name и count
   const {name, count} = filter;
 
   return (
