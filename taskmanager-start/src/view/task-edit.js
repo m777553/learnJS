@@ -3,36 +3,31 @@ import {
   createRepeatingDaysMarkup
 } from "./days_and_colors_markup.js";
 
+import {
+  isRepeating,
+  humanizeDate,
+  humanizeTime
+} from "../utils";
+
 
 export const createSiteTaskFormEditTemplate = (task) => {
   const {
     description,
     dueDate,
     repeatingDays,
-    color,
-    isFavorite,
-    isArchive
+    color
   } = task;
 
   if (!description) {
-    ``;
+    return ``;
   }
-  const colorsMarkup = createColorsMarkup();
+  const colorsMarkup = createColorsMarkup(color);
   const repeatingDaysMarkup = createRepeatingDaysMarkup(repeatingDays);
 
   // чтение даты в человеческом формате
-  const date = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
-    day: `numeric`,
-    month: `long`
-  }) : ``;
-  const time = dueDate !== null ? dueDate.toLocaleString(`en-US`, {
-    hour: `numeric`,
-    minute: `numeric`
-  }) : ``;
-  // повторяемость задачи
-  const isRepeating = (repeating) => {
-    return Object.values(repeating).some(Boolean);
-  };
+  const date = humanizeDate(dueDate);
+  const time = humanizeTime(dueDate);
+
   // console.log(repeatingDays);
 
   return (
