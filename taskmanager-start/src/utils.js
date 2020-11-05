@@ -60,21 +60,22 @@ export const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-export const RenderPosition = {
+export const renderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
 };
 
 export const renderElement = (container, element, place) => {
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case renderPosition.AFTERBEGIN:
       container.prepend(element);
       break;
-    case RenderPosition.BEFOREEND:
+    case renderPosition.BEFOREEND:
       container.append(element);
       break;
   }
 };
+
 
 export const createMyElement = (template) => {
   const newElement = document.createElement(`div`);

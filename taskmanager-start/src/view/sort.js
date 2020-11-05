@@ -12,24 +12,24 @@ export const createSiteSortTemplate = () => {
 
 
 export default class Sort {
-	constructor() {
-		//this._menu = menu;
+  constructor() {
+    // this._menu = menu;
 
-		this._element = null;
-	}
+    this._element = null;
+  }
 
-	getTemplate() {
-		return createSiteSortTemplate();
-	}
+  getTemplate() {
+    return createSiteSortTemplate();
+  }
 
-	getElement() {
-		if (!this._element) {
-			this._element = createMyElement(this.getTemplate());
-		}
-		return this._element;
-	}
+  getElement() {
+    if (!this._element) {
+      this._element = createMyElement(this.getTemplate());
+    }
+    return this._element;
+  }
 
-	removeElement() {
-		this._element = null;
-	}
+  removeElement() {
+    this._element = null;
+  }
 }

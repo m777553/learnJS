@@ -2,7 +2,7 @@ import {createMyElement} from "../utils.js";
 
 const createFilterMarkup = (filter, isChecked) => {
 
-  // деструкция элемента массива по ключам чтобы потом писать не filters.name, filters.count , а просто name и count
+  // деструкция элемента массива по ключам чтобы потом писать не filter.name, filter.count , а просто name и count
   const {name, count} = filter;
 
   return (
@@ -32,24 +32,24 @@ const createSiteFilterTemplate = (filters) => {
 
 
 export default class FilterMenu {
-	constructor(filters) {
-		this._filters = filters;
+  constructor(filters) {
+    this._filters = filters;
 
-		this._element = null;
-	}
+    this._element = null;
+  }
 
-	getTemplate() {
-		return createSiteFilterTemplate(this._filters);
-	}
+  getTemplate() {
+    return createSiteFilterTemplate(this._filters);
+  }
 
-	getElement() {
-		if (!this._element) {
-			this._element = createMyElement(this.getTemplate());
-		}
-		return this._element;
-	}
+  getElement() {
+    if (!this._element) {
+      this._element = createMyElement(this.getTemplate());
+    }
+    return this._element;
+  }
 
-	removeElement() {
-		this._element = null;
-	}
+  removeElement() {
+    this._element = null;
+  }
 }

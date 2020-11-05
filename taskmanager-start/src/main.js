@@ -3,25 +3,21 @@
 // } from "./view/site-menu.js";
 
 
-import {
-  createSiteFilterTemplate
-} from "./view/filter.js";
+import FilterMenu from "./view/filter.js";
 
-import {
-  createSiteBoardContainerTemplate
-} from "./view/board.js";
+import SiteMenu from "./view/site-menu.js";
 
-import {
-  createSiteTaskFormEditTemplate
-} from "./view/task-edit.js";
+import Board from "./view/board.js";
 
-import {
-  createSiteCardTemplate
-} from "./view/task.js";
+import TaskEdit from "./view/task-edit.js";
 
-import {
-  createSiteLoadBtnTemplate
-} from "./view/load-btn.js";
+import Task from "./view/task.js";
+
+import Sort from "./view/sort.js";
+
+import TasksBoard from "./view/tasks_board.js";
+
+import LoadMoreButton from "./view/load-btn.js";
 
 // mock генерации данных фильтра
 import {
@@ -34,7 +30,9 @@ import {
 } from "./mock/task.js";
 
 import {
-  renderTemplate as render
+  renderTemplate as render,
+  renderPosition,
+  renderElement
 } from "./utils.js";
 
 const TASK_COUNT_PER_STEP = 8;
@@ -49,29 +47,33 @@ const siteMainElem = document.querySelector(`.main`);
 
 const siteMenuElem = siteMainElem.querySelector(`.main__control`);
 
-render(siteMenuElem, createSiteMenuTemplate(), `beforeend`);
+renderElement(siteMenuElem, new SiteMenu().getElement(), renderPosition.BEFOREEND);
 
-
+// Это моковые данные, которые пошли в разметку
 const tasks = generateTasks(MAX_TASKS_COUNT);
 const filters = generateFilter(tasks);
 
-render(siteMainElem, createSiteFilterTemplate(filters), `beforeend`);
-render(siteMainElem, createSiteBoardContainerTemplate(), `beforeend`);
+renderElement(siteMainElem, new FilterMenu(filters).getElement(), renderPosition.BEFOREEND);
+
+
+renderElement(siteMainElem, new Board().getElement(), renderPosition.BEFOREEND);
 
 const boardContainer = siteMainElem.querySelector(`.board`);
 
-// render(boardContainer, createSiteSortTemplate() ,`afterbegin`);
+renderElement(boardContainer, new Sort().getElement() ,renderPosition.BEFOREEND);
+
+renderElement(boardContainer, new TasksBoard().getElement(), renderPosition.BEFOREEND);
 
 const tasksContainer = boardContainer.querySelector(`.board__tasks`);
 
 // Рендерим карточки задач
 // Ограничим первую отрисовку по минимальному количеству, чтобы не пытаться рисовать 8 задач, если всего 5
 for (let i = 1; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
-  render(tasksContainer, createSiteCardTemplate(tasks[i]), `beforeend`);
+  renderElement(tasksContainer, new Task(tasks[i]).getElement(), renderPosition.BEFOREEND);
 }
 
 
-render(tasksContainer, createSiteTaskFormEditTemplate(tasks[0]), `afterbegin`);
+renderElement(tasksContainer, new TaskEdit(tasks[0]).getElement(), renderPosition.AFTERBEGIN);
 
 
 // Отобразим кнопку LOAD MORE, если общее количество задач больше
@@ -81,7 +83,8 @@ if (tasks.length >= TASK_COUNT_PER_STEP) {
   let renderTaskCount = TASK_COUNT_PER_STEP;
 
 
-  render(boardContainer, createSiteLoadBtnTemplate(), `beforeend`);
+  renderElement(boardContainer, new LoadMoreButton().getElement(), renderPosition.BEFOREEND);
+
   const loadMoreButton = boardContainer.querySelector(`.load-more`);
 
   // Добавим обработчик на кнопку LOAD MORE
@@ -89,7 +92,7 @@ if (tasks.length >= TASK_COUNT_PER_STEP) {
   loadMoreButton.addEventListener(`click`, (evt) => {
     evt.preventDefault();
     tasks.slice(renderTaskCount, renderTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
-      render(tasksContainer, createSiteCardTemplate(task), `beforeend`);
+      renderElement(tasksContainer, new Task(task).getElement(), renderPosition.BEFOREEND);
     });
     renderTaskCount += TASK_COUNT_PER_STEP;
 

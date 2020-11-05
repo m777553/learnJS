@@ -92,24 +92,24 @@ const createSiteCardTemplate = (task) => {
 
 
 export default class Task {
-	constructor(task) {
-		this._task = task;
+  constructor(task) {
+    this._task = task;
 
-		this._element = null;
-	}
+    this._element = null;
+  }
 
-	getTemplate() {
-		return createSiteCardTemplate(this._task);
-	}
+  getTemplate() {
+    return createSiteCardTemplate(this._task);
+  }
 
-	getElement() {
-		if (!this._element) {
-			this._element = createMyElement(this.getTemplate());
-		}
-		return this._element;
-	}
+  getElement() {
+    if (!this._element) {
+      this._element = createMyElement(this.getTemplate());
+    }
+    return this._element;
+  }
 
-	removeElement() {
-		this._element = null;
-	}
+  removeElement() {
+    this._element = null;
+  }
 }
