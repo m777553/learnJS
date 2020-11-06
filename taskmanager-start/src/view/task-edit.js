@@ -31,10 +31,12 @@ const createSiteTaskFormEditTemplate = (task) => {
 
   const repeatingYesNo = isRepeating(repeatingDays) ? `yes` : `no`;
 
+  const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+
   // console.log(repeatingDays);
 
   return (
-    `<article class="card card--edit card--${color} ${repeatingDays}">
+    `<article class="card card--edit card--${color} ${repeatinClassName}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__color-bar">

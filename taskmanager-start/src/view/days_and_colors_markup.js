@@ -2,7 +2,7 @@ import {
   COLORS as colors
 } from "./../const.js";
 
-import {createMyElement} from "../utils.js";
+// import {createMyElement} from "../utils.js";
 
 
 const createColorsMarkup = (currentColor) => {

@@ -21,18 +21,18 @@ import LoadMoreButton from "./view/load-btn.js";
 
 // mock генерации данных фильтра
 import {
-  generateFilter
+	generateFilter
 } from "./mock/filter.js";
 
 // mock генерация данных задачи
 import {
-  generateTasks
+	generateTasks
 } from "./mock/task.js";
 
 import {
-  renderTemplate as render,
-  renderPosition,
-  renderElement
+
+	renderPosition,
+	renderElement
 } from "./utils.js";
 
 const TASK_COUNT_PER_STEP = 8;
@@ -53,53 +53,107 @@ renderElement(siteMenuElem, new SiteMenu().getElement(), renderPosition.BEFOREEN
 const tasks = generateTasks(MAX_TASKS_COUNT);
 const filters = generateFilter(tasks);
 
+
+
 renderElement(siteMainElem, new FilterMenu(filters).getElement(), renderPosition.BEFOREEND);
 
+const boardContainer = new Board();
+renderElement(siteMainElem, boardContainer.getElement(), renderPosition.BEFOREEND);
 
-renderElement(siteMainElem, new Board().getElement(), renderPosition.BEFOREEND);
+//const boardContainer = siteMainElem.querySelector(`.board`);
 
-const boardContainer = siteMainElem.querySelector(`.board`);
+renderElement(boardContainer.getElement(), new Sort().getElement(), renderPosition.BEFOREEND);
 
-renderElement(boardContainer, new Sort().getElement() ,renderPosition.BEFOREEND);
 
-renderElement(boardContainer, new TasksBoard().getElement(), renderPosition.BEFOREEND);
+const tasksContainer = new TasksBoard();
+renderElement(boardContainer.getElement(), tasksContainer.getElement(), renderPosition.BEFOREEND);
 
-const tasksContainer = boardContainer.querySelector(`.board__tasks`);
+// const tasksContainer = boardContainer.getElement().querySelector(`.board__tasks`);
+
+const renderTask = (container, task) => {
+	const taskComponent = new Task(task);
+	const taskEditComponent = new TaskEdit(task);
+
+	//функции по замене элементов
+	const replaceCardToForm = () => {
+		//где меняем->на что меняем->что меняем
+		container.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+	};
+
+	const replaceFormToCard = () => {
+		container.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+	};
+
+	//Объявим обработчик клавиши Esc, который будет закрывать форму
+	const onEscPress = (evt) => {
+		if (evt.key === `Escape` || evt.key === `Esc`) {
+			evt.preventDefault();
+			replaceFormToCard();
+			document.removeEventListener(`keydown`, onEscPress);
+		}
+	};
+
+	//обработчики клика и отправки
+	const onEditBtnClick = (evt) => {
+		evt.preventDefault();
+		replaceCardToForm();
+		document.addEventListener(`keydown`, onEscPress);
+	};
+
+	const onSubmitBtnClick = (evt) => {
+		evt.preventDefault();
+		replaceFormToCard();
+		document.removeEventListener(`keydown`, onEscPress);
+	};
+
+
+	//обработчик клика
+	taskComponent.getElement().querySelector('.card__btn--edit').addEventListener(`click`, onEditBtnClick);
+
+	taskEditComponent.getElement().querySelector('.card__form').addEventListener(`submit`, onSubmitBtnClick);
+
+
+
+	renderElement(tasksContainer.getElement(), taskComponent.getElement(), renderPosition.BEFOREEND);
+};
+
+
+
 
 // Рендерим карточки задач
 // Ограничим первую отрисовку по минимальному количеству, чтобы не пытаться рисовать 8 задач, если всего 5
-for (let i = 1; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
-  renderElement(tasksContainer, new Task(tasks[i]).getElement(), renderPosition.BEFOREEND);
+for (let i = 0; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
+	renderTask(tasksContainer.getElement(), tasks[i]);
 }
 
 
-renderElement(tasksContainer, new TaskEdit(tasks[0]).getElement(), renderPosition.AFTERBEGIN);
+//renderElement(tasksContainer.getElement(), new TaskEdit(tasks[0]).getElement(), renderPosition.AFTERBEGIN);
 
 
 // Отобразим кнопку LOAD MORE, если общее количество задач больше
 if (tasks.length >= TASK_COUNT_PER_STEP) {
 
-  // Заведем счетчик показанных задач
-  let renderTaskCount = TASK_COUNT_PER_STEP;
+	// Заведем счетчик показанных задач
+	let renderTaskCount = TASK_COUNT_PER_STEP;
 
 
-  renderElement(boardContainer, new LoadMoreButton().getElement(), renderPosition.BEFOREEND);
+	renderElement(boardContainer.getElement(), new LoadMoreButton().getElement(), renderPosition.BEFOREEND);
 
-  const loadMoreButton = boardContainer.querySelector(`.load-more`);
+	const loadMoreButton = boardContainer.getElement().querySelector(`.load-more`);
 
-  // Добавим обработчик на кнопку LOAD MORE
-  // По клику будем допоказывать задачи, опираясь на счётчик
-  loadMoreButton.addEventListener(`click`, (evt) => {
-    evt.preventDefault();
-    tasks.slice(renderTaskCount, renderTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
-      renderElement(tasksContainer, new Task(task).getElement(), renderPosition.BEFOREEND);
-    });
-    renderTaskCount += TASK_COUNT_PER_STEP;
+	// Добавим обработчик на кнопку LOAD MORE
+	// По клику будем допоказывать задачи, опираясь на счётчик
+	loadMoreButton.addEventListener(`click`, (evt) => {
+		evt.preventDefault();
+		tasks.slice(renderTaskCount, renderTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
+			renderTask(tasksContainer.getElement(), task);
+		});
+		renderTaskCount += TASK_COUNT_PER_STEP;
 
-    if (renderTaskCount >= tasks.length) {
-      loadMoreButton.remove();
-    }
+		if (renderTaskCount >= tasks.length) {
+			loadMoreButton.remove();
+		}
 
 
-  });
+	});
 }
