@@ -28,7 +28,7 @@ import {
 
 // mock генерация данных задачи
 import {
-	generateTasks
+  generateTasks
 } from "./mock/task.js";
 
 import {
