@@ -1,102 +1,172 @@
-import {
-	createSiteMenuTemplate
-} from "./view/site-menu.js";
+// import {
+//   createSiteMenuTemplate
+// } from "./view/site-menu.js";
 
 
-import {
-	createSiteFilterTemplate
-} from "./view/filter.js";
+import FilterMenu from "./view/filter.js";
 
-import {
-	createSiteBoardContainerTemplate
-} from "./view/board.js";
+import SiteMenu from "./view/site-menu.js";
 
-import {
-	createSiteTaskFormEditTemplate
-} from "./view/task-edit.js";
+import Board from "./view/board.js";
 
-import {
-	createSiteCardTemplate
-} from "./view/task.js";
+import TaskEdit from "./view/task-edit.js";
 
-import {
-	createSiteLoadBtnTemplate
-} from "./view/load-btn.js";
+import Task from "./view/task.js";
+
+import Sort from "./view/sort.js";
+
+import TasksBoard from "./view/tasks_board.js";
+
+import LoadMoreButton from "./view/load-btn.js";
+
+import NoTasksBoard from "./view/no_tasks.js";
 
 // mock генерации данных фильтра
 import {
-	generateFilter
+  generateFilter
 } from "./mock/filter.js";
 
 // mock генерация данных задачи
 import {
-	generateTasks
+  generateTasks
 } from "./mock/task.js";
+
+import {
+
+  renderPosition,
+  renderElement
+} from "./utils.js";
 
 const TASK_COUNT_PER_STEP = 8;
 const MAX_TASKS_COUNT = 22;
 
-// Функция принимает контейнер для вставки, разметку в виде строки  и положение
-const render = (container, template, place) => {
-	container.insertAdjacentHTML(place, template);
-};
+// // Функция принимает контейнер для вставки, разметку в виде строки  и положение
+// const render = (container, template, place) => {
+// 	container.insertAdjacentHTML(place, template);
+// };
 
 const siteMainElem = document.querySelector(`.main`);
 
 const siteMenuElem = siteMainElem.querySelector(`.main__control`);
 
-render(siteMenuElem, createSiteMenuTemplate(), `beforeend`);
 
-
+// Это моковые данные, которые пошли в разметку
 const tasks = generateTasks(MAX_TASKS_COUNT);
 const filters = generateFilter(tasks);
 
-render(siteMainElem, createSiteFilterTemplate(filters), `beforeend`);
-render(siteMainElem, createSiteBoardContainerTemplate(), `beforeend`);
+const renderTask = (container, boardTask) => {
+  const taskComponent = new Task(boardTask);
+  const taskEditComponent = new TaskEdit(boardTask);
 
-const boardContainer = siteMainElem.querySelector(`.board`);
+  // функции по замене элементов
+  const replaceCardToForm = () => {
+    // где меняем->на что меняем->что меняем
+    container.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+  };
 
-// render(boardContainer, createSiteSortTemplate() ,`afterbegin`);
+  const replaceFormToCard = () => {
+    container.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+  };
 
-const tasksContainer = boardContainer.querySelector(`.board__tasks`);
+  // Объявим обработчик клавиши Esc, который будет закрывать форму
+  const onEscPress = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscPress);
+    }
+  };
 
-// Рендерим карточки задач
-// Ограничим первую отрисовку по минимальному количеству, чтобы не пытаться рисовать 8 задач, если всего 5
-for (let i = 1; i < Math.min(tasks.length, TASK_COUNT_PER_STEP); i++) {
-	render(tasksContainer, createSiteCardTemplate(tasks[i]), `beforeend`);
-}
+  // обработчики клика и отправки
+  const onEditBtnClick = (evt) => {
+    evt.preventDefault();
+    replaceCardToForm();
+    document.addEventListener(`keydown`, onEscPress);
+  };
 
-
-render(tasksContainer, createSiteTaskFormEditTemplate(tasks[0]), `afterbegin`);
-
-
-// Отобразим кнопку LOAD MORE, если общее количество задач больше
-if (tasks.length >= TASK_COUNT_PER_STEP) {
-
-	// Заведем счетчик показанных задач
-	let renderTaskCount = TASK_COUNT_PER_STEP;
-
-
-	render(boardContainer, createSiteLoadBtnTemplate(), `beforeend`);
-	const loadMoreButton = boardContainer.querySelector(`.load-more`);
-
-	// Добавим обработчик на кнопку LOAD MORE
-	// По клику будем допоказывать задачи, опираясь на счётчик
-	loadMoreButton.addEventListener(`click`, (evt) => {
-		evt.preventDefault();
-		tasks.slice(renderTaskCount, renderTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
-			render(tasksContainer, createSiteCardTemplate(task), `beforeend`);
-		});
-		renderTaskCount += TASK_COUNT_PER_STEP;
-
-		if (renderTaskCount >= tasks.length) {
-			console.log(renderTaskCount);
-			console.log(tasks.length);
-			loadMoreButton.remove();
-		}
+  const onSubmitBtnClick = (evt) => {
+    evt.preventDefault();
+    replaceFormToCard();
+    document.removeEventListener(`keydown`, onEscPress);
+  };
 
 
+  // обработчик клика
+  taskComponent.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, onEditBtnClick);
+
+  taskEditComponent.getElement().querySelector(`.card__form`).addEventListener(`submit`, onSubmitBtnClick);
 
 
-	});
-}
+  renderElement(container, taskComponent.getElement(), renderPosition.BEFOREEND);
+};
+
+const renderBoard = (boardHolder, boardTasks) => {
+
+  const boardContainer = new Board();
+  renderElement(boardHolder, boardContainer.getElement(), renderPosition.BEFOREEND);
+
+  const sortContainer = new Sort();
+  const tasksContainer = new TasksBoard();
+
+
+  // По условию заглушка должна показываться,
+  // renderTask(taskListComponent.getElement(), tasks[i]);	  // когда нет задач или все задачи в архиве.
+  // Мы могли бы написать:
+  // tasks.length === 0 || tasks.every((task) => task.isArchive)
+  // Но благодаря тому, что на пустом массиве every вернёт true,
+  // мы можем опустить "tasks.length === 0".
+  // p.s. А метод some на пустом массиве наборот вернет false
+  if (boardTasks.every((boardTask) => boardTask.isArchive)) {
+    renderElement(boardContainer.getElement(), new NoTasksBoard().getElement(), renderPosition.BEFOREEND);
+  } else {
+
+    renderElement(boardContainer.getElement(), sortContainer.getElement(), renderPosition.BEFOREEND);
+
+
+    renderElement(boardContainer.getElement(), tasksContainer.getElement(), renderPosition.BEFOREEND);
+
+    // const tasksContainer = boardContainer.getElement().querySelector(`.board__tasks`);
+
+
+    // Рендерим карточки задач
+    // Ограничим первую отрисовку по минимальному количеству, чтобы не пытаться рисовать 8 задач, если всего 5
+    for (let i = 0; i < Math.min(boardTasks.length, TASK_COUNT_PER_STEP); i++) {
+      renderTask(tasksContainer.getElement(), boardTasks[i]);
+    }
+  }
+  // Отобразим кнопку LOAD MORE, если общее количество задач больше
+  if (boardTasks.length >= TASK_COUNT_PER_STEP) {
+
+    // Заведем счетчик показанных задач
+    let renderTaskCount = TASK_COUNT_PER_STEP;
+
+
+    const loadMoreButton = new LoadMoreButton();
+    renderElement(boardContainer.getElement(), loadMoreButton.getElement(), renderPosition.BEFOREEND);
+
+
+    // Добавим обработчик на кнопку LOAD MORE
+    // По клику будем допоказывать задачи, опираясь на счётчик
+    loadMoreButton.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      boardTasks.slice(renderTaskCount, renderTaskCount + TASK_COUNT_PER_STEP).forEach((boardTask) => {
+        renderTask(tasksContainer.getElement(), boardTask);
+      });
+      renderTaskCount += TASK_COUNT_PER_STEP;
+
+      if (renderTaskCount >= boardTasks.length) {
+        loadMoreButton.getElement().remove();
+      }
+
+
+    });
+  }
+};
+
+
+renderElement(siteMenuElem, new SiteMenu().getElement(), renderPosition.BEFOREEND);
+
+
+renderElement(siteMainElem, new FilterMenu(filters).getElement(), renderPosition.BEFOREEND);
+
+renderBoard(siteMainElem, tasks);

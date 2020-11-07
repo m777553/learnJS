@@ -2,6 +2,9 @@ import {
   COLORS as colors
 } from "./../const.js";
 
+// import {createMyElement} from "../utils.js";
+
+
 const createColorsMarkup = (currentColor) => {
   // const colors = [`black`, `green`, `pink`, `yellow`, `blue`];
   return (colors.map((color) =>

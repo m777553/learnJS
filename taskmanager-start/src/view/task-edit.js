@@ -6,11 +6,12 @@ import {
 import {
   isRepeating,
   humanizeDate,
-  humanizeTime
+  humanizeTime,
+  createMyElement
 } from "../utils";
 
 
-export const createSiteTaskFormEditTemplate = (task) => {
+const createSiteTaskFormEditTemplate = (task) => {
   const {
     description,
     dueDate,
@@ -28,10 +29,14 @@ export const createSiteTaskFormEditTemplate = (task) => {
   const date = humanizeDate(dueDate);
   const time = humanizeTime(dueDate);
 
+  const repeatingYesNo = isRepeating(repeatingDays) ? `yes` : `no`;
+
+  const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+
   // console.log(repeatingDays);
 
   return (
-    `<article class="card card--edit card--${color} ${repeatingDays}">
+    `<article class="card card--edit card--${color} ${repeatinClassName}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__color-bar">
@@ -60,7 +65,7 @@ export const createSiteTaskFormEditTemplate = (task) => {
                       </fieldset>
 
                       <button class="card__repeat-toggle" type="button">
-                        repeat:<span class="card__repeat-status">${isRepeating(repeatingDays) ? `yes` : `no`}</span>
+                        repeat:<span class="card__repeat-status">${repeatingYesNo}</span>
                       </button>
 
                       <fieldset class="card__repeat-days">
@@ -88,3 +93,27 @@ export const createSiteTaskFormEditTemplate = (task) => {
           </article>`
   );
 };
+
+
+export default class TaskEdit {
+  constructor(task) {
+    this._task = task;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSiteTaskFormEditTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createMyElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

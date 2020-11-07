@@ -7,10 +7,11 @@ import {
   isRepeating,
   isExpired,
   humanizeDate,
-  humanizeTime
+  humanizeTime,
+  createMyElement
 } from "../utils";
 
-export const createSiteCardTemplate = (task) => {
+const createSiteCardTemplate = (task) => {
   const {
     description,
     dueDate,
@@ -83,11 +84,32 @@ export const createSiteCardTemplate = (task) => {
                     </div>
                   </div>
                 </div>
-
-
-
               </div>
             </div>
           </article>`
   );
 };
+
+
+export default class Task {
+  constructor(task) {
+    this._task = task;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSiteCardTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createMyElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
