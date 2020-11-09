@@ -1,32 +1,17 @@
-import {createMyElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createSiteBoardContainerTemplate = () => {
-  return (
-    `<section class="board container">
+	return (
+		`<section class="board container">
 
       </section>`
-  );
+	);
 };
 
-export default class Board {
-  constructor() {
-    // this._menu = menu;
 
-    this._element = null;
-  }
 
-  getTemplate() {
-    return createSiteBoardContainerTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
+export default class Board extends Abstract {
+	getTemplate() {
+		return createSiteBoardContainerTemplate();
+	}
 }

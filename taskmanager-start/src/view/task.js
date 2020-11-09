@@ -1,15 +1,12 @@
-// import {
-//   date,
-//   time
-// } from "./time.js";
-
 import {
   isRepeating,
   isExpired,
   humanizeDate,
-  humanizeTime,
-  createMyElement
+  humanizeTime
 } from "../utils";
+
+import Abstract from "./abstract.js";
+
 
 const createSiteCardTemplate = (task) => {
   const {
@@ -91,25 +88,13 @@ const createSiteCardTemplate = (task) => {
 };
 
 
-export default class Task {
+export default class Task extends Abstract{
   constructor(task) {
+    super();
     this._task = task;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createSiteCardTemplate(this._task);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

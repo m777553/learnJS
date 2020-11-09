@@ -1,4 +1,4 @@
-import {createMyElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 export const createSiteSortTemplate = () => {
   return (
@@ -11,25 +11,8 @@ export const createSiteSortTemplate = () => {
 };
 
 
-export default class Sort {
-  constructor() {
-    // this._menu = menu;
-
-    this._element = null;
-  }
-
+export default class Sort extends Abstract{
   getTemplate() {
     return createSiteSortTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

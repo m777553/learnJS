@@ -6,10 +6,10 @@ import {
 import {
   isRepeating,
   humanizeDate,
-  humanizeTime,
-  createMyElement
+  humanizeTime
 } from "../utils";
 
+import Abstract from "./abstract.js";
 
 const createSiteTaskFormEditTemplate = (task) => {
   const {
@@ -95,25 +95,13 @@ const createSiteTaskFormEditTemplate = (task) => {
 };
 
 
-export default class TaskEdit {
+export default class TaskEdit extends Abstract{
   constructor(task) {
+    super();
     this._task = task;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createSiteTaskFormEditTemplate(this._task);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

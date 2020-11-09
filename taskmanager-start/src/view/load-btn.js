@@ -1,4 +1,4 @@
-import {createMyElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createSiteLoadBtnTemplate = () => {
   return (
@@ -6,25 +6,8 @@ const createSiteLoadBtnTemplate = () => {
   );
 };
 
-export default class LoadMoreButton {
-  constructor() {
-    // this._menu = menu;
-
-    this._element = null;
-  }
-
-  getTemplate() {
+export default class LoadMoreButton extends Abstract {
+    getTemplate() {
     return createSiteLoadBtnTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
