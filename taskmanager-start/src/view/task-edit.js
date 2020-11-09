@@ -99,9 +99,23 @@ export default class TaskEdit extends Abstract{
   constructor(task) {
     super();
     this._task = task;
+    this._submitHandler = this._submitHandler.bind(this);
   }
 
   getTemplate() {
     return createSiteTaskFormEditTemplate(this._task);
   }
+
+  _submitHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+  setSubmitHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().addEventListener(`submit`, this._submitHandler);
+  }
+
+
+
+
 }

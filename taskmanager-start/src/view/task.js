@@ -92,9 +92,18 @@ export default class Task extends Abstract{
   constructor(task) {
     super();
     this._task = task;
+    this._editBtnClickHandler = this._editBtnClickHandler.bind(this);
   }
 
   getTemplate() {
     return createSiteCardTemplate(this._task);
   }
+  _editBtnClickHandler(evt) {
+		evt.preventDefault();
+		this._callback.click();
+	}
+  setEditBtnClickHandler(callback) {
+		this._callback.click = callback;
+		this.getElement().addEventListener(`click`, this._editBtnClickHandler);
+	}
 }
