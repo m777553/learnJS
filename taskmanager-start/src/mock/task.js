@@ -1,6 +1,6 @@
 import {COLORS as colors} from "./../const.js";
 
-import {getRandomInteger} from "./../utils.js";
+import {getRandomInteger} from "./../utils/common.js";
 
 
 const generateDescription = () => {

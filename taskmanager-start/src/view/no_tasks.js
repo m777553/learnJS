@@ -8,7 +8,7 @@ const crearteNoTasksTemplate = () => {
   );
 };
 
-export default class NoTasksBoard extends Abstract{
+export default class NoTasksBoard extends Abstract {
   getTemplate() {
     return crearteNoTasksTemplate();
   }

@@ -3,7 +3,7 @@ import {
   isExpired,
   humanizeDate,
   humanizeTime
-} from "../utils";
+} from "../utils/task.js";
 
 import Abstract from "./abstract.js";
 
@@ -88,7 +88,7 @@ const createSiteCardTemplate = (task) => {
 };
 
 
-export default class Task extends Abstract{
+export default class Task extends Abstract {
   constructor(task) {
     super();
     this._task = task;
@@ -99,11 +99,11 @@ export default class Task extends Abstract{
     return createSiteCardTemplate(this._task);
   }
   _editBtnClickHandler(evt) {
-		evt.preventDefault();
-		this._callback.click();
-	}
+    evt.preventDefault();
+    this._callback.click();
+  }
   setEditBtnClickHandler(callback) {
-		this._callback.click = callback;
-		this.getElement().addEventListener(`click`, this._editBtnClickHandler);
-	}
+    this._callback.click = callback;
+    this.getElement().addEventListener(`click`, this._editBtnClickHandler);
+  }
 }

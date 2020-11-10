@@ -11,7 +11,7 @@ export const createSiteSortTemplate = () => {
 };
 
 
-export default class Sort extends Abstract{
+export default class Sort extends Abstract {
   getTemplate() {
     return createSiteSortTemplate();
   }

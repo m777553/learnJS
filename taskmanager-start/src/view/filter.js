@@ -31,9 +31,9 @@ const createSiteFilterTemplate = (filters) => {
 };
 
 
-export default class FilterMenu extends Abstract{
+export default class FilterMenu extends Abstract {
   constructor(filters) {
-    //супер для наследования из класса свойства this._element = null; и тд
+    // супер для наследования из класса свойства this._element = null; и тд
     super();
     this._filters = filters;
   }

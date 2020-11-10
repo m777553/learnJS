@@ -7,7 +7,7 @@ import {
   isRepeating,
   humanizeDate,
   humanizeTime
-} from "../utils";
+} from "../utils/task.js";
 
 import Abstract from "./abstract.js";
 
@@ -95,7 +95,7 @@ const createSiteTaskFormEditTemplate = (task) => {
 };
 
 
-export default class TaskEdit extends Abstract{
+export default class TaskEdit extends Abstract {
   constructor(task) {
     super();
     this._task = task;
@@ -114,8 +114,6 @@ export default class TaskEdit extends Abstract{
     this._callback.click = callback;
     this.getElement().addEventListener(`submit`, this._submitHandler);
   }
-
-
 
 
 }

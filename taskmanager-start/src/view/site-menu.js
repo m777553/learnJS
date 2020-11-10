@@ -33,7 +33,7 @@ const createSiteMenuTemplate = () => {
   );
 };
 
-export default class SiteMenu extends Abstract{
+export default class SiteMenu extends Abstract {
   getTemplate() {
     return createSiteMenuTemplate();
   }
