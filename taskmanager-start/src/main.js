@@ -34,11 +34,11 @@ import {
 import {
 
   renderPosition,
-  renderElement
+  render
 } from "./utils/render.js";
 
 const TASK_COUNT_PER_STEP = 8;
-const MAX_TASKS_COUNT = 22;
+const MAX_TASKS_COUNT = 9;
 
 // // Функция принимает контейнер для вставки, разметку в виде строки  и положение
 // const render = (container, template, place) => {
@@ -97,13 +97,13 @@ const renderTask = (container, boardTask) => {
   taskEditComponent.setSubmitHandler(onSubmitBtnClick);
 
 
-  renderElement(container, taskComponent.getElement(), renderPosition.BEFOREEND);
+  render(container, taskComponent.getElement(), renderPosition.BEFOREEND);
 };
 
 const renderBoard = (boardHolder, boardTasks) => {
 
   const boardContainer = new Board();
-  renderElement(boardHolder, boardContainer.getElement(), renderPosition.BEFOREEND);
+  render(boardHolder, boardContainer.getElement(), renderPosition.BEFOREEND);
 
   const sortContainer = new Sort();
   const tasksContainer = new TasksBoard();
@@ -117,13 +117,13 @@ const renderBoard = (boardHolder, boardTasks) => {
   // мы можем опустить "tasks.length === 0".
   // p.s. А метод some на пустом массиве наборот вернет false
   if (boardTasks.every((boardTask) => boardTask.isArchive)) {
-    renderElement(boardContainer.getElement(), new NoTasksBoard().getElement(), renderPosition.BEFOREEND);
+    render(boardContainer.getElement(), new NoTasksBoard().getElement(), renderPosition.BEFOREEND);
   } else {
 
-    renderElement(boardContainer.getElement(), sortContainer.getElement(), renderPosition.BEFOREEND);
+    render(boardContainer.getElement(), sortContainer.getElement(), renderPosition.BEFOREEND);
 
 
-    renderElement(boardContainer.getElement(), tasksContainer.getElement(), renderPosition.BEFOREEND);
+    render(boardContainer.getElement(), tasksContainer.getElement(), renderPosition.BEFOREEND);
 
     // const tasksContainer = boardContainer.getElement().querySelector(`.board__tasks`);
 
@@ -135,14 +135,14 @@ const renderBoard = (boardHolder, boardTasks) => {
     }
   }
   // Отобразим кнопку LOAD MORE, если общее количество задач больше
-  if (boardTasks.length >= TASK_COUNT_PER_STEP) {
+  if (boardTasks.length > TASK_COUNT_PER_STEP) {
 
     // Заведем счетчик показанных задач
     let renderTaskCount = TASK_COUNT_PER_STEP;
 
 
     const loadMoreButton = new LoadMoreButton();
-    renderElement(boardContainer.getElement(), loadMoreButton.getElement(), renderPosition.BEFOREEND);
+    render(boardContainer.getElement(), loadMoreButton.getElement(), renderPosition.BEFOREEND);
 
     const onLoaddMoreBtnClick = () => {
       // evt.preventDefault();
@@ -153,6 +153,7 @@ const renderBoard = (boardHolder, boardTasks) => {
 
       if (renderTaskCount >= boardTasks.length) {
         loadMoreButton.getElement().remove();
+        loadMoreButton.removeElement();
       }
     };
 
@@ -163,9 +164,9 @@ const renderBoard = (boardHolder, boardTasks) => {
 };
 
 
-renderElement(siteMenuElem, new SiteMenu().getElement(), renderPosition.BEFOREEND);
+render(siteMenuElem, new SiteMenu().getElement(), renderPosition.BEFOREEND);
 
 
-renderElement(siteMainElem, new FilterMenu(filters).getElement(), renderPosition.BEFOREEND);
+render(siteMainElem, new FilterMenu(filters).getElement(), renderPosition.BEFOREEND);
 
 renderBoard(siteMainElem, tasks);
