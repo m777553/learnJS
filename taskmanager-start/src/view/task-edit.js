@@ -6,10 +6,10 @@ import {
 import {
   isRepeating,
   humanizeDate,
-  humanizeTime,
-  createMyElement
-} from "../utils";
+  humanizeTime
+} from "../utils/task.js";
 
+import Abstract from "./abstract.js";
 
 const createSiteTaskFormEditTemplate = (task) => {
   const {
@@ -95,25 +95,25 @@ const createSiteTaskFormEditTemplate = (task) => {
 };
 
 
-export default class TaskEdit {
+export default class TaskEdit extends Abstract {
   constructor(task) {
+    super();
     this._task = task;
-
-    this._element = null;
+    this._submitHandler = this._submitHandler.bind(this);
   }
 
   getTemplate() {
     return createSiteTaskFormEditTemplate(this._task);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
+  _submitHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+  setSubmitHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().addEventListener(`submit`, this._submitHandler);
   }
 
-  removeElement() {
-    this._element = null;
-  }
+
 }

@@ -1,4 +1,4 @@
-import {createMyElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createFilterMarkup = (filter, isChecked) => {
 
@@ -31,25 +31,14 @@ const createSiteFilterTemplate = (filters) => {
 };
 
 
-export default class FilterMenu {
+export default class FilterMenu extends Abstract {
   constructor(filters) {
+    // супер для наследования из класса свойства this._element = null; и тд
+    super();
     this._filters = filters;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createSiteFilterTemplate(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

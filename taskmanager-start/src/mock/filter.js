@@ -20,7 +20,7 @@ import {
   isExpired,
   isRepeating,
   isTaskExpiringToday
-} from "../utils.js";
+} from "../utils/task.js";
 
 
 // Заведем "мапу" (от англ. map, карта) - объект, где ключи - названия фильтров, а значения - функции-счетчики

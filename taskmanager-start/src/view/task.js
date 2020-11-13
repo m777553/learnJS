@@ -1,15 +1,12 @@
-// import {
-//   date,
-//   time
-// } from "./time.js";
-
 import {
   isRepeating,
   isExpired,
   humanizeDate,
-  humanizeTime,
-  createMyElement
-} from "../utils";
+  humanizeTime
+} from "../utils/task.js";
+
+import Abstract from "./abstract.js";
+
 
 const createSiteCardTemplate = (task) => {
   const {
@@ -91,25 +88,22 @@ const createSiteCardTemplate = (task) => {
 };
 
 
-export default class Task {
+export default class Task extends Abstract {
   constructor(task) {
+    super();
     this._task = task;
-
-    this._element = null;
+    this._editBtnClickHandler = this._editBtnClickHandler.bind(this);
   }
 
   getTemplate() {
     return createSiteCardTemplate(this._task);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
-    }
-    return this._element;
+  _editBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
-
-  removeElement() {
-    this._element = null;
+  setEditBtnClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().addEventListener(`click`, this._editBtnClickHandler);
   }
 }

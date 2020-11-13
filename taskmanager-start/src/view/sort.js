@@ -1,35 +1,39 @@
-import {createMyElement} from "../utils.js";
+import Abstract from "./abstract.js";
+import {SortType} from "../const.js";
 
 export const createSiteSortTemplate = () => {
   return (
     `<div class="board__filter-list">
-			<a href="#" class="board__filter">SORT BY DEFAULT</a>
-			<a href="#" class="board__filter">SORT BY DATE up</a>
-			<a href="#" class="board__filter">SORT BY DATE down</a>
+			<a href="#" class="board__filter" data-sort-type="${SortType.DEFAULT}">SORT BY DEFAULT</a>
+			<a href="#" class="board__filter" data-sort-type="${SortType.DATE_UP}">SORT BY DATE up</a>
+			<a href="#" class="board__filter" data-sort-type="${SortType.DATE_DOWN}">SORT BY DATE down</a>
 		</div>`
   );
 };
 
 
-export default class Sort {
+export default class Sort extends Abstract {
   constructor() {
-    // this._menu = menu;
+    super();
 
-    this._element = null;
+    this._onSortTypeChange =   this._onSortTypeChange.bind(this);
   }
-
   getTemplate() {
     return createSiteSortTemplate();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createMyElement(this.getTemplate());
+  _onSortTypeChange(evt) {
+    //Добавим проверку на тег "а", чтобы клики по блоку сортировки не вызывали колбэк
+    if (evt.target.tagName !== `A`) {
+      return;
     }
-    return this._element;
+    evt.preventDefault();
+
+    this._callback.sortTypeChange(evt.target.dataset.sortType);
   }
 
-  removeElement() {
-    this._element = null;
+//то что будет устанавливать callback функцию
+  setSortTypeChange(callback) {
+    this._callback.sortTypeChange = callback;
+    this.getElement().addEventListener(`click`, this._onSortTypeChange);
   }
 }
