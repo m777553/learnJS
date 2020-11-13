@@ -1,5 +1,3 @@
-
-
 // повторяемость задачи
 export const isRepeating = (repeating) => {
   return Object.values(repeating).some(Boolean);
@@ -47,4 +45,43 @@ export const isTaskExpiringToday = (dueDate) => {
   }
   const currentDate = getCurrentDate();
   return dueDate.getTime() === currentDate.getTime();
+};
+
+
+// Функция помещает задачи без даты в конце списка,
+// возвращая нужный вес для колбэка sort
+const getWeightForNullDate = (dateA, dateB) => {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+
+  if (dateA === null) {
+    return 1;
+  }
+
+  if (dateB === null) {
+    return -1;
+  }
+
+  return null;
+};
+
+export const sortTaskUp = (taskA, taskB) => {
+  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
+
+  if (weight !== null) {
+    return weight;
+  }
+
+  return taskA.dueDate.getTime() - taskB.dueDate.getTime();
+};
+
+export const sortTaskDown = (taskA, taskB) => {
+  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
+
+  if (weight !== null) {
+    return weight;
+  }
+
+  return taskB.dueDate.getTime() - taskA.dueDate.getTime();
 };

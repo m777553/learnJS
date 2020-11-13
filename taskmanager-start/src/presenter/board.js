@@ -20,6 +20,16 @@ import {
 	remove
 } from "../utils/render.js";
 
+
+import {
+	sortTaskUp,
+	sortTaskDown
+} from "../utils/task.js";
+
+import {
+	SortType
+} from "../const.js";
+
 const TASK_COUNT_PER_STEP = 8;
 // const MAX_TASKS_COUNT = 0;
 
@@ -28,6 +38,7 @@ export default class BoardPresenter {
 	constructor(boardContainer) {
 		this._boardContainer = boardContainer;
 		this._renderTaskCountPerStep = TASK_COUNT_PER_STEP;
+		this._currentSort = SortType.DEFAULT;
 
 		this._boardComponent = new Board();
 		this._sortComponent = new Sort();
@@ -35,8 +46,9 @@ export default class BoardPresenter {
 		this._noTaskComponent = new NoTasksBoard();
 		this._loadMoreButton = new LoadMoreButton();
 
-//Обработчик клика вынесем в отдельный метод. Метод bind закрепляет объект за данной функцией, тк стрелочная функция теряет окружение
-		this._onLoaddMoreBtnClick = this._onLoaddMoreBtnClick.bind(this);
+		//Обработчик клика вынесем в отдельный метод. Метод bind закрепляет объект за данной функцией, тк стрелочная функция теряет окружение
+		this._onLoadMoreBtnClick = this._onLoadMoreBtnClick.bind(this);
+		this._onSortTypeChange = this._onSortTypeChange.bind(this);
 	}
 
 
@@ -45,6 +57,7 @@ export default class BoardPresenter {
 	// Сразу создаёт ЗАДАЧИ , отрисовывает ДОСКУ и ДОСКУ ЗАДАЧ и запускает логику работы ДОСКИ
 	init(boardTasks) {
 		this._boardTasks = boardTasks.slice();
+		this._boardTasksSortDefault = boardTasks.slice();
 
 		render(this._boardContainer, this._boardComponent, renderPosition.BEFOREEND);
 
@@ -53,7 +66,50 @@ export default class BoardPresenter {
 		this._renderBoard();
 	}
 
-	_onLoaddMoreBtnClick() {
+	_sortTasks(sortType) {
+		switch (sortType) {
+      case SortType.DATE_UP:
+        this._boardTasks.sort(sortTaskUp);
+        break;
+      case SortType.DATE_DOWN:
+        this._boardTasks.sort(sortTaskDown);
+        break;
+				//А когда пользователь захочет "вернуть всё, как было",
+	        // мы просто запишем в _boardTasks исходный массив
+      default:
+        this._boardTasks = this._boardTasksSortDefault.slice();
+    }
+		this._currentSortType = sortType;
+	}
+
+	_clearTaskList(){
+		this._taskListComponent.getElement().innerHTML = ``;
+    this._renderedTaskCount = TASK_COUNT_PER_STEP;
+	}
+
+
+	//обработчик смены сортировки
+	_onSortTypeChange(sortType) {
+		// - Сортируем задачи
+		if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortTasks(sortType);
+		// - Очищаем список
+		this._clearTaskList();
+		// - Рендерим список заново
+		this._renderTaskList();
+	}
+	// Метод для рендеринга сортировки
+	_renderSort() {
+
+		render(this._boardComponent, this._sortComponent, renderPosition.AFTERBEGIN);
+		this._sortComponent.setSortTypeChange(this._onSortTypeChange);
+	}
+
+
+	_onLoadMoreBtnClick() {
 		// evt.preventDefault();
 		this._renderTasks(this._renderTaskCountPerStep, this._renderTaskCountPerStep + TASK_COUNT_PER_STEP);
 
@@ -62,12 +118,6 @@ export default class BoardPresenter {
 		if (this._renderTaskCountPerStep >= this._boardTasks.length) {
 			remove(this._loadMoreButton);
 		}
-	}
-
-	// Метод для рендеринга сортировки
-	_renderSort() {
-
-		render(this._boardComponent, this._sortComponent, renderPosition.AFTERBEGIN);
 	}
 
 	// Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
@@ -143,7 +193,7 @@ export default class BoardPresenter {
 
 
 
-		this._loadMoreButton.setClickHandler(this._onLoaddMoreBtnClick);
+		this._loadMoreButton.setClickHandler(this._onLoadMoreBtnClick);
 
 	}
 

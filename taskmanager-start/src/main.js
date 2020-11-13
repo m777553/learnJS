@@ -21,7 +21,7 @@ import {
 } from "./utils/render.js";
 
 // const TASK_COUNT_PER_STEP = 8;
-const MAX_TASKS_COUNT = 9;
+const MAX_TASKS_COUNT = 22;
 
 // // Функция принимает контейнер для вставки, разметку в виде строки  и положение
 // const render = (container, template, place) => {
