@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+ import Abstract from "./abstract.js";
 const createSortMarkup = () => {
   return (
     `<ul class="sort">

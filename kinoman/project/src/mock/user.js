@@ -2,7 +2,7 @@ import {
   getRandomInteger
 } from "../utils/common.js";
 
-const names = [null, `novice`, `fan`, `movie buff`];
+const names = [``, `Novice`, `Fan`, `Movie Buff`];
 
 // 0 — звание не отображается;
 // • от 1 до 10 — novice;
@@ -12,7 +12,7 @@ const wathedFilms = getRandomInteger(0, 30);
 
 const imgSrc = `../images/bitmap@2x.png`;
 
-export const generateUser = (wathedFilms) => {
+export const generateUser = () => {
 
   if (wathedFilms === 0) {
     name = names[0];

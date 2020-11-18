@@ -13,6 +13,6 @@ const createExtraFilmsContainerMarkup = () => {
 };
 export default class ExtraFilms extends Abstract {
   getTemplate() {
-    return createBoardMarkup();
+    return createExtraFilmsContainerMarkup();
   }
 }
