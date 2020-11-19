@@ -1,14 +1,11 @@
 import Abstract from "./abstract.js";
 const createBoardFilmsMarkup = () => {
+
   return (
-  // films-list__container
-  // show-more
-    `  <section class="films-list">
+    `<section class="films-list">
 	      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
 
-
 				</section>`
-
   );
 };
 
@@ -17,3 +14,5 @@ export default class BoardFilms extends Abstract {
     return createBoardFilmsMarkup();
   }
 }
+//films_container
+//show_more_btn

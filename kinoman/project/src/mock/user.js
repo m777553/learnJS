@@ -10,7 +10,7 @@ const names = [``, `Novice`, `Fan`, `Movie Buff`];
 // • от 21 и выше — movie buff;
 const wathedFilms = getRandomInteger(0, 30);
 
-const imgSrc = `../images/bitmap@2x.png`;
+const imgSrc = `./images/bitmap@2x.png`;
 
 export const generateUser = () => {
 

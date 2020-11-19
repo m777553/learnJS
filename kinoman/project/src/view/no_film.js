@@ -1,5 +1,5 @@
 import Abstract from "./abstract.js";
-const createNoFilm = () => {
+const createNoFilmMarkup = () => {
 
   return (
     `<section class="films-list">
@@ -9,8 +9,7 @@ const createNoFilm = () => {
 };
 
 export default class NoFilm extends Abstract {
-
   getTemplate() {
-    return createNoFilm();
+    return createNoFilmMarkup();
   }
 }

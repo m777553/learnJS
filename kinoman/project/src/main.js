@@ -1,4 +1,4 @@
-//import FooterStatistic from "./view/footer_statistic.js";
+import FooterStatistic from "./view/footer_statistic.js";
 import Sort from "./view/sort.js";
 import Navigation from "./view/navigation.js";
 import Profile from "./view/profile.js";
@@ -45,3 +45,7 @@ render(main, sort.getElement(), renderPosition.BEFOREEND);
 
 const boardPresenter = new BoardPresenter(main);
 boardPresenter.init(films);
+
+const footer = document.querySelector('.footer');
+const footerStatistic = new FooterStatistic(films);
+render(footer, footerStatistic.getElement(), renderPosition.BEFOREEND);

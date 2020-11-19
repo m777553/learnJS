@@ -1,26 +1,24 @@
-const getCountOfFilms = (films) => {
-  return films.length;
-};
-const countOfFilms = getCountOfFilms(films);
+import Abstract from "./abstract.js";
 
 
-const createFooterStatisticMarkup = (countOfFilms) => {
 
-  return (
+const createFooterStatisticMarkup = (films) => {
+	const countOfFilms = films.length;
+	return (
 
-    `<section class="footer__statistics">
+		`<section class="footer__statistics">
 				<p>${countOfFilms} movies inside</p>
 			</section>`
-  );
+	);
 };
 
 
 export default class FooterStatistic extends Abstract {
-  constructor(film) {
-    super();
-    this._film = film;
-  }
-  getTemplate() {
-    return createFooterStatisticMarkup(this._film);
-  }
+	constructor(films) {
+		super();
+		this._films = films;
+	}
+	getTemplate() {
+		return createFooterStatisticMarkup(this._films);
+	}
 }
