@@ -5,23 +5,23 @@ import Profile from "./view/profile.js";
 import BoardPresenter from "./presenter/board_presenter.js";
 
 import {
-	generateNavigation
+  generateNavigation
 } from "./mock/navigation.js";
 import {
-	generateFilms
+  generateFilms
 } from "./mock/film.js";
 import {
-	generateUser
+  generateUser
 } from "./mock/user.js";
 
 import {
-	renderPosition,
-	render
+  renderPosition,
+  render
 } from "./utils/render.js";
 
 const MAX_FILMS_COUNT = 11;
 
-//генерируем МОКОвый контент
+// генерируем МОКОвый контент
 const films = generateFilms(MAX_FILMS_COUNT);
 console.log(films);
 
@@ -32,11 +32,11 @@ const navigation = generateNavigation(films);
 console.log(navigation);
 
 const profile = new Profile(user);
-const header = document.querySelector('.header');
+const header = document.querySelector(`.header`);
 render(header, profile.getElement(), renderPosition.BEFOREEND);
 
 
-const main = document.querySelector('.main');
+const main = document.querySelector(`.main`);
 const navigationMenu = new Navigation(navigation);
 render(main, navigationMenu.getElement(), renderPosition.AFTERBEGIN);
 
@@ -46,6 +46,6 @@ render(main, sort.getElement(), renderPosition.BEFOREEND);
 const boardPresenter = new BoardPresenter(main);
 boardPresenter.init(films);
 
-const footer = document.querySelector('.footer');
+const footer = document.querySelector(`.footer`);
 const footerStatistic = new FooterStatistic(films);
 render(footer, footerStatistic.getElement(), renderPosition.BEFOREEND);

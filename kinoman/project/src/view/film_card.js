@@ -6,18 +6,19 @@ const createCardMarkup = (film) => {
     rating,
     year,
     duration,
-    genre,
+    genres,
     poster,
     description,
-    commentsCount,
+    comments,
     isWatchlist,
     isWatched,
     isFavorite
   } = film;
 
   const watchlistClass = isWatchlist ? `film-card__controls-item--active` : ``;
-  const watchedClass = isWatchlist ? `film-card__controls-item--active` : ``;
-  const favoriteClass = isWatchlist ? `film-card__controls-item--active` : ``;
+  const watchedClass = isWatched ? `film-card__controls-item--active` : ``;
+  const favoriteClass = isFavorite ? `film-card__controls-item--active` : ``;
+  const commentsCount = comments.length;
 
   return (
     `<article class="film-card">
@@ -26,7 +27,7 @@ const createCardMarkup = (film) => {
 	<p class="film-card__info">
 		<span class="film-card__year">${year}</span>
 		<span class="film-card__duration">${duration}</span>
-		<span class="film-card__genre">${genre}</span>
+		<span class="film-card__genre">${genres[0]}</span>
 	</p>
 	<img src="${poster}" alt="" class="film-card__poster">
 	<p class="film-card__description">${description}</p>

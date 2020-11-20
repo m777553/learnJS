@@ -7,18 +7,18 @@ const createShowMoreBtnMarkup = () => {
 };
 
 export default class ShowMoreBtn extends Abstract {
-  constructor(){
+  constructor() {
     super();
     this._clickHandler = this._clickHandler.bind(this);
   }
   getTemplate() {
     return createShowMoreBtnMarkup();
   }
-  _clickHandler(evt){
+  _clickHandler(evt) {
     evt.preventDefault();
     this._callback.click();
   }
-  setClickHandler(callback){
+  setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement().addEventListener(`click`, this._clickHandler);
   }

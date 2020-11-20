@@ -13,7 +13,7 @@ const wathedFilms = getRandomInteger(0, 30);
 const imgSrc = `./images/bitmap@2x.png`;
 
 export const generateUser = () => {
-
+  let name = null;
   if (wathedFilms === 0) {
     name = names[0];
   }

@@ -7,7 +7,7 @@ const createFilmsContainerMarkup = () => {
 
 
       </div>`
-  )
+  );
 };
 
 export default class FilmsContainer extends Abstract {

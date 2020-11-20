@@ -1,8 +1,8 @@
 const filmToNavigation = {
   'All movies': (films) => films.length,
-  Watchlist: (films) => films.filter((film)=>film.isWatchlist).length,
-  History: (films) => films.filter((film)=>film.isWatched).length,
-  Favorites: (films) => films.filter((film)=>film.isFavorite).length
+  "Watchlist": (films) => films.filter((film)=>film.isWatchlist).length,
+  "History": (films) => films.filter((film)=>film.isWatched).length,
+  "Favorites": (films) => films.filter((film)=>film.isFavorite).length
 };
 
 
