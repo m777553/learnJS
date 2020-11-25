@@ -12,7 +12,7 @@ const createCardEditMarkup = (film) => {
     title,
     rating,
     // нужно брать только год от даты
-    year,
+    //year,
     duration,
     // меняем на массив genres
     genres,
@@ -81,7 +81,7 @@ const createCardEditMarkup = (film) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${releaseDate}</td>
+              <td class="film-details__cell">${releaseDate.day} ${releaseDate.month} ${releaseDate.year}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -165,8 +165,17 @@ export default class FilmCardEdit extends Abstract {
   constructor(film) {
     super();
     this._film = film;
+    this._clickHandler = this._clickHandler.bind(this);
   }
   getTemplate() {
     return createCardEditMarkup(this._film);
+  }
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+  setClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().addEventListener(`click`, this._clickHandler);
   }
 }

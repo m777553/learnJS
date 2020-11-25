@@ -123,6 +123,18 @@ const generateActores = () => {
 };
 
 const generateReleaseDate = () => {
+  let filmDate = new Date();
+  filmDate.setFullYear(getRandomInteger(1920,1980),getRandomInteger(0,11),getRandomInteger(1,31));
+  // filmDate = filmDate.toLocaleString(`en`, {
+  //   day: `numeric`,
+  //   month: `long`,
+  //   year: `numeric`
+  // });
+  return {
+    day: filmDate.toLocaleString(`en-US`, {day: `numeric`}),
+    month: filmDate.toLocaleString(`en-US`, {month: `long`}),
+    year: filmDate.toLocaleString(`en-US`, {year: `numeric`})
+  }
 
 };
 
@@ -141,6 +153,7 @@ const generateCountries = () => {
   ];
   return countries[getRandomIndex(countries)];
 };
+
 
 
 const isInUsersList = () => {
@@ -166,7 +179,7 @@ const generateFilm = () => {
   return {
     title: title,
     rating: generateRating(),
-    year: generateYear(),
+    //year: generateYear(),
     duration: generateDuration(),
     genres: generateGenres(),
     poster: generatePoster(),
@@ -181,7 +194,7 @@ const generateFilm = () => {
     director:generateDirector(),
     writers:generateWriters(),
     actors:generateActores(),
-    releaseDate:``,
+    releaseDate:generateReleaseDate(),
     country:generateCountries(),
   };
 };

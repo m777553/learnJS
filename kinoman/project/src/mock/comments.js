@@ -10,7 +10,7 @@ const generateEmpjiTitle = () => {
 	const emojiTitles = [
 		`angry`, `puke`, `sleeping`, `smile`
 	];
-	return `./images/posters/${emojiTitles[getRandomIndex(emojiTitles)]}`
+	return `./images/emoji/${emojiTitles[getRandomIndex(emojiTitles)]}.png`
 };
 
 const generateCommentText = () => {

@@ -14,5 +14,3 @@ export default class BoardFilms extends Abstract {
     return createBoardFilmsMarkup();
   }
 }
-// films_container
-// show_more_btn

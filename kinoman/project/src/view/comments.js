@@ -1,4 +1,4 @@
-const createCommentMarkup(comment) => {
+const createCommentMarkup = (comment) => {
 	const {
 		emojiImg,
 		commentText,
@@ -22,9 +22,9 @@ const createCommentMarkup(comment) => {
 	          </li>`)
 }
 
-export const createCommentsMarkup(comments) => {
+export const createCommentsMarkup = (comments) => {
 
-const commentMarckup = comments.map((comment)=>createCommentMarkup(comment)).join(\n);
+	const commentMarckup = comments.map((comment) => createCommentMarkup(comment)).join(`\n`);
 	return (
 		`<ul class="film-details__comments-list">
 
