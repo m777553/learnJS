@@ -7,7 +7,7 @@
 		"build": "webpack",
 		"eslint": "eslint src/**/*.js",
 		"test": "npm run eslint --fix",
-		"start": "webpack-dev-server",
+		"start": "webpack-dev-server --open",
 		"start2": "webpack-serve --config webpack.config.js --mode development --watch"
 	},
 	"devDependencies": {

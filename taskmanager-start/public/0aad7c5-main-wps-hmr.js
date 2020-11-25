@@ -25,15 +25,15 @@ const generateDescription = () => {
     `Пройти интенсив на соточку`
   ];
 
-  const randomIndex = getRandomInteger(0, descriptions.length - 1);
+  const getRandomIndex = getRandomInteger(0, descriptions.length - 1);
 
-  return descriptions[randomIndex];
+  return descriptions[getRandomIndex];
 };
 
 const generateColor = () => {
   const colors = [`black`, `green`, `pink`, `orange`, `yellow`, `blue`, `red`];
-  const randomIndex = getRandomInteger(0, colors.length - 1);
-  return colors[randomIndex];
+  const getRandomIndex = getRandomInteger(0, colors.length - 1);
+  return colors[getRandomIndex];
 };
 
 const generateDate = () => {

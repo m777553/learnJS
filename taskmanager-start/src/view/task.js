@@ -104,6 +104,6 @@ export default class Task extends Abstract {
   }
   setEditBtnClickHandler(callback) {
     this._callback.click = callback;
-    this.getElement().addEventListener(`click`, this._editBtnClickHandler);
+    this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, this._editBtnClickHandler);
   }
 }

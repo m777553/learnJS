@@ -130,11 +130,11 @@ export default class BoardPresenter {
 		// функции по замене элементов
 		const replaceCardToForm = () => {
 			// где меняем->на что меняем->что меняем
-			replace(taskComponent, taskEditComponent);
+			replace(taskEditComponent, taskComponent);
 		};
 
 		const replaceFormToCard = () => {
-			replace(taskEditComponent, taskComponent);
+			replace(taskComponent, taskEditComponent);
 		};
 
 		// Объявим обработчик клавиши Esc, который будет закрывать форму
