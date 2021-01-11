@@ -1,6 +1,6 @@
 export const COLORS = [`black`, `green`, `pink`, `yellow`, `blue`];
 
-//Все возможные типы сортировки описываем в константе
+// Все возможные типы сортировки описываем в константе
 export const SortType = {
   DEFAULT: `default`,
   DATE_DOWN: `date-down`,
