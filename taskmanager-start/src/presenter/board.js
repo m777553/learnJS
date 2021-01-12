@@ -26,6 +26,10 @@ import {
 } from "../utils/task.js";
 
 import {
+	updateItem,
+} from "../utils/common.js";
+
+import {
 	SortType
 } from "../const.js";
 
@@ -51,6 +55,8 @@ export default class BoardPresenter {
 		// Обработчик клика вынесем в отдельный метод. Метод bind закрепляет объект за данной функцией, тк стрелочная функция теряет окружение
 		this._onLoadMoreBtnClick = this._onLoadMoreBtnClick.bind(this);
 		this._onSortTypeChange = this._onSortTypeChange.bind(this);
+
+    this._onTaskChange = this._onTaskChange.bind(this);
 	}
 
 
@@ -83,7 +89,7 @@ export default class BoardPresenter {
 		}
 		this._currentSortType = sortType;
 	}
-	//Очистка листа в лоб
+	// Очистка листа в лоб
 	// _clearTaskList() {
 	// 	this._taskListComponent.getElement().innerHTML = ``;
 	// 	this._renderedTaskCount = TASK_COUNT_PER_STEP;
@@ -192,4 +198,12 @@ export default class BoardPresenter {
 		this._renderSort();
 		this._renderTaskList();
 	}
+
+//обработчик изменений в задаче - _handleTaskChange
+  _onTaskChange(updatedTask) {
+    //Задачи хранятся в двух списках (из-за сортировки), поэтому нужно обновить данные в обоих.
+    this._boardTasks = updateItem(this._boardTasks, updatedTask);
+    this._boardTasksSortDefault = updateItem(this._boardTasksSortDefault, updatedTask);
+    this._taskPresenter[updatedTask.id].init(updatedTask);
+  }
 }
