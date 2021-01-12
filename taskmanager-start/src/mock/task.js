@@ -1,77 +1,84 @@
-import {COLORS as colors} from "./../const.js";
+import {
+	COLORS as colors
+} from "./../const.js";
 
-import {getRandomInteger} from "./../utils/common.js";
+import {
+	getRandomInteger
+} from "./../utils/common.js";
 
 
 const generateDescription = () => {
-  const descriptions = [
-    `Изучить теорию`,
-    `Сделать домашку`,
-    `Пройти интенсив на соточку`
-  ];
+	const descriptions = [
+		`Изучить теорию`,
+		`Сделать домашку`,
+		`Пройти интенсив на соточку`
+	];
 
-  const getRandomIndex = getRandomInteger(0, descriptions.length - 1);
+	const getRandomIndex = getRandomInteger(0, descriptions.length - 1);
 
-  return descriptions[getRandomIndex];
+	return descriptions[getRandomIndex];
 };
 
 
 export const generateColor = () => {
 
-  const getRandomIndex = getRandomInteger(0, colors.length - 1);
-  return colors[getRandomIndex];
+	const getRandomIndex = getRandomInteger(0, colors.length - 1);
+	return colors[getRandomIndex];
 };
 
 const generateDate = () => {
-  const isDate = Boolean(getRandomInteger());
+	const isDate = Boolean(getRandomInteger());
 
-  if (!isDate) {
-    return null;
-  }
-  const maxDateGap = 7;
-  const daysGap = getRandomInteger(-maxDateGap, maxDateGap);
+	if (!isDate) {
+		return null;
+	}
+	const maxDateGap = 7;
+	const daysGap = getRandomInteger(-maxDateGap, maxDateGap);
 
-  const currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
-  currentDate.setDate(currentDate.getDate() + daysGap);
+	const currentDate = new Date();
+	currentDate.setHours(23, 59, 59, 999);
+	currentDate.setDate(currentDate.getDate() + daysGap);
 
-  return new Date(currentDate);
+	return new Date(currentDate);
 };
 
 const generateRepeatingDays = () => {
-  return {
-    mo: false,
-    tu: false,
-    we: Boolean(getRandomInteger(0, 1)),
-    th: false,
-    fr: Boolean(getRandomInteger(0, 1)),
-    sa: false,
-    su: false
-  };
+	return {
+		mo: false,
+		tu: false,
+		we: Boolean(getRandomInteger(0, 1)),
+		th: false,
+		fr: Boolean(getRandomInteger(0, 1)),
+		sa: false,
+		su: false
+	};
 };
 
-export const generateTask = () => {
-  const dueDate = generateDate();
-  const repeatingDays = dueDate === null ? generateRepeatingDays() : {
-    mo: false,
-    tu: false,
-    we: false,
-    th: false,
-    fr: false,
-    sa: false,
-    su: false
-  };
+const generateId = () => 	Date.now() + parseInt(Math.random() * 10000, 10);
 
-  return {
-    description: generateDescription(),
-    dueDate,
-    repeatingDays,
-    color: generateColor(),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
-    isArchive: Boolean(getRandomInteger(0, 1)),
-  };
+export const generateTask = () => {
+	const dueDate = generateDate();
+	const repeatingDays = dueDate === null ? generateRepeatingDays() : {
+		mo: false,
+		tu: false,
+		we: false,
+		th: false,
+		fr: false,
+		sa: false,
+		su: false
+	};
+
+	return {
+		description: generateDescription(),
+		dueDate,
+		repeatingDays,
+		color: generateColor(),
+		isFavorite: Boolean(getRandomInteger(0, 1)),
+		isArchive: Boolean(getRandomInteger(0, 1)),
+		id: generateId(),
+	};
 };
 
 export const generateTasks = (count) => {
-  return new Array(count).fill(``).map(generateTask);
+	return new Array(count).fill(``).map(generateTask);
 };

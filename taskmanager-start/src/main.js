@@ -37,6 +37,7 @@ const siteMenuElem = siteMainElem.querySelector(`.main__control`);
 const tasks = generateTasks(MAX_TASKS_COUNT);
 const filters = generateFilter(tasks);
 
+
 { // const renderTask = (container, boardTask) => {
 //   const taskComponent = new Task(boardTask);
 //   const taskEditComponent = new TaskEdit(boardTask);
