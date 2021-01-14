@@ -1,41 +1,41 @@
 import {
-  isRepeating,
-  isExpired,
-  humanizeDate,
-  humanizeTime
+	isRepeating,
+	isExpired,
+	humanizeDate,
+	humanizeTime
 } from "../utils/task.js";
 
 import Abstract from "./abstract.js";
 
 
 const createSiteCardTemplate = (task) => {
-  const {
-    description,
-    dueDate,
-    repeatingDays,
-    color,
-    isFavorite,
-    isArchive
-  } = task;
+	const {
+		description,
+		dueDate,
+		repeatingDays,
+		color,
+		isFavorite,
+		isArchive
+	} = task;
 
-  // чтение даты в человеческом формате
-  const date = humanizeDate(dueDate);
-  const time = humanizeTime(dueDate);
-
-
-  // классы для просроченных, архивных и любимых дел
-  const deadlineClassName = isExpired(dueDate) ? `card--deadline` : ``;
-
-  const archiveClassName = isArchive ? `card__btn--archive` : `card__btn--archive card__btn--disabled`;
-
-  const favoriteClassName = isFavorite ? `card__btn--favorites` : `card__btn--favorites card__btn--disabled`;
+	// чтение даты в человеческом формате
+	const date = humanizeDate(dueDate);
+	const time = humanizeTime(dueDate);
 
 
-  const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+	// классы для просроченных, архивных и любимых дел
+	const deadlineClassName = isExpired(dueDate) ? `card--deadline` : ``;
+
+	const archiveClassName = isArchive ? `card__btn--archive` : `card__btn--archive card__btn--disabled`;
+
+	const favoriteClassName = isFavorite ? `card__btn--favorites` : `card__btn--favorites card__btn--disabled`;
 
 
-  return (
-    `<article class="card card--${color} ${repeatinClassName} ${deadlineClassName}">
+	const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+
+
+	return (
+		`<article class="card card--${color} ${repeatinClassName} ${deadlineClassName}">
             <div class="card__form">
               <div class="card__inner">
                 <div class="card__control">
@@ -84,26 +84,45 @@ const createSiteCardTemplate = (task) => {
               </div>
             </div>
           </article>`
-  );
+	);
 };
 
 
 export default class Task extends Abstract {
-  constructor(task) {
-    super();
-    this._task = task;
-    this._editBtnClickHandler = this._editBtnClickHandler.bind(this);
-  }
+	constructor(task) {
+		super();
+		this._task = task;
+		this._editBtnClickHandler = this._editBtnClickHandler.bind(this);
+		this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+		this._archiveClickHandler = this._archiveClickHandler.bind(this);
+	}
 
-  getTemplate() {
-    return createSiteCardTemplate(this._task);
-  }
-  _editBtnClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.click();
-  }
-  setEditBtnClickHandler(callback) {
-    this._callback.click = callback;
-    this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, this._editBtnClickHandler);
-  }
+	getTemplate() {
+		return createSiteCardTemplate(this._task);
+	}
+	_editBtnClickHandler(evt) {
+		evt.preventDefault();
+		this._callback.click();
+	}
+	_favoriteClickHandler(evt) {
+		evt.preventDefault();
+		this._callback.favoriteClick();
+	}
+	_archiveClickHandler(evt) {
+		evt.preventDefault();
+		this._callback.archiveClick();
+	}
+
+	setEditBtnClickHandler(callback) {
+		this._callback.click = callback;
+		this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, this._editBtnClickHandler);
+	}
+	setFavoriteBtnClickHandler(callback) {
+		this._callback.favoriteClick = callback;
+		this.getElement().querySelector(`.card__btn--favorites`).addEventListener(`click`, this._favoriteClickHandler);
+	}
+	setArchiveBtnClickHandler(callback) {
+		this._callback.archiveClick = callback;
+		this.getElement().querySelector(`.card__btn--archive`).addEventListener(`click`, this._archiveClickHandler);
+	}
 }

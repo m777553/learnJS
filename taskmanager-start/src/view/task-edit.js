@@ -108,7 +108,7 @@ export default class TaskEdit extends Abstract {
 
   _submitHandler(evt) {
     evt.preventDefault();
-    this._callback.click();
+    this._callback.click(this._task);
   }
   setSubmitHandler(callback) {
     this._callback.click = callback;

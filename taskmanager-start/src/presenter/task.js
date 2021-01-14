@@ -10,8 +10,9 @@ import {
 } from "../utils/render.js";
 
 export default class TaskPresenter {
-	constructor(taskListContainer) {
+	constructor(taskListContainer, changeData) {
 		this._taskListContainer = taskListContainer;
+		this._changeData = changeData;
 
 		this._task = null;
 		this._taskEdit = null;
@@ -20,6 +21,8 @@ export default class TaskPresenter {
 		this._onEscPress = this._onEscPress.bind(this);
 		this._onEditBtnClick = this._onEditBtnClick.bind(this);
 		this._onSubmitBtnClick = this._onSubmitBtnClick.bind(this);
+		this._onFavoriteBtnClick = this._onFavoriteBtnClick.bind(this);
+		this._onArchiveBtnClick = this._onArchiveBtnClick.bind(this);
 	}
 	init(task) {
 		this._taskData = task;
@@ -33,6 +36,8 @@ export default class TaskPresenter {
 
 		// обработчик клика
 		this._task.setEditBtnClickHandler(this._onEditBtnClick);
+		this._task.setFavoriteBtnClickHandler(this._onFavoriteBtnClick);
+		this._task.setArchiveBtnClickHandler(this._onArchiveBtnClick);
 		this._taskEdit.setSubmitHandler(this._onSubmitBtnClick);
 
 		// Если prevTask и prevTaskEdit null, то есть не создавались, рендерим как раньше. Если prevTask и prevTaskEdit отличны от null, то есть создавались, то заменяем их новыми и удаляем
@@ -99,6 +104,16 @@ export default class TaskPresenter {
 		// evt.preventDefault();
 		this._replaceFormToCard();
 		document.removeEventListener(`keydown`, this._onEscPress);
+	}
+
+
+// В презентере задачи опишем обработчики клика по кнопкам "Архив" и "В избранное"
+	_onFavoriteBtnClick() {
+		this._changeData(Object.assign({}, this._taskData, {isFavorite: !this._taskData.isFavorite}));
+	}
+
+	_onArchiveBtnClick() {
+		this._changeData( Object.assign({}, this._taskData, {isArchive: !this._taskData.isArchive}));
 	}
 
 

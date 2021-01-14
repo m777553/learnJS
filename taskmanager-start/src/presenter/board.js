@@ -145,8 +145,11 @@ export default class BoardPresenter {
 
 	// Метод, куда уйдёт логика созданию и рендерингу компонетов задачи,
 	// текущая функция renderTask в main.js
+
+
+    //Передадим функцию обновления из презентера доски в презентер задачи - this._onTaskChange в конструктор
 	_renderTask(task) {
-		const taskPresenter = new TaskPresenter(this._taskListComponent);
+		const taskPresenter = new TaskPresenter(this._taskListComponent, this._onTaskChange);
 		taskPresenter.init(task);
 
 		//добавляем ссылку по ключу id предентера задачи в объект, где будут ханиться все ссылки на презентеры каждой создаваемой задачи
@@ -199,7 +202,7 @@ export default class BoardPresenter {
 		this._renderTaskList();
 	}
 
-//обработчик изменений в задаче - _handleTaskChange
+//обработчик изменений в задаче - _onTaskChange
   _onTaskChange(updatedTask) {
     //Задачи хранятся в двух списках (из-за сортировки), поэтому нужно обновить данные в обоих.
     this._boardTasks = updateItem(this._boardTasks, updatedTask);
