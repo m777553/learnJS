@@ -1,42 +1,96 @@
 import {
-  createColorsMarkup,
-  createRepeatingDaysMarkup
+	createColorsMarkup,
+	createRepeatingDaysMarkup
 } from "./days_and_colors_markup.js";
 
 import {
-  isRepeating,
-  humanizeDate,
-  humanizeTime
+	isRepeating,
+	humanizeDate,
+	humanizeTime
 } from "../utils/task.js";
 
 import Abstract from "./abstract.js";
 
-const createSiteTaskFormEditTemplate = (task) => {
-  const {
-    description,
-    dueDate,
-    repeatingDays,
-    color
-  } = task;
+import {
+	COLORS
+} from "./../const.js";
 
-  if (!description) {
-    return ``;
-  }
-  const colorsMarkup = createColorsMarkup(color);
-  const repeatingDaysMarkup = createRepeatingDaysMarkup(repeatingDays);
+const BLANK_TASK = {
+	color: COLORS[0],
+	description: ``,
+	dueDate: null,
+	repeatingDays: {
+		mo: false,
+		tu: false,
+		we: false,
+		th: false,
+		fr: false,
+		sa: false,
+		su: false
+	},
+	isArchive: false,
+	isFavorite: false,
 
-  // чтение даты в человеческом формате
-  const date = humanizeDate(dueDate);
-  const time = humanizeTime(dueDate);
+};
+const createTaskEditDateTemplate = (dueDate, isDueDate) => {
+	// чтение даты в человеческом формате
+	const date = humanizeDate(dueDate);
+	const time = humanizeTime(dueDate);
 
-  const repeatingYesNo = isRepeating(repeatingDays) ? `yes` : `no`;
+	return (
+		`<button class="card__date-deadline-toggle" type="button">
+        date: <span class="card__date-status">${isDueDate? `yes`:`no`}</span>
+      </button>
+    ${isDueDate ? `<fieldset class="card__date-deadline">
+        <label class="card__input-deadline-wrap">
+          <input class="card__date" type="text" placeholder="" name="date" value="${date} ${time}">
+        </label>
+      </fieldset>`:``}`
+	)
+};
 
-  const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+const createTaskEditRepeatingTemplate = (repeatingDays, isRepeatingDays) => {
+	const repeatingDaysMarkup = createRepeatingDaysMarkup(repeatingDays);
+	return (`<button class="card__repeat-toggle" type="button">
+        repeat:<span class="card__repeat-status">${isRepeatingDays ? `yes`:`no`}</span>
+      </button>
 
-  // console.log(repeatingDays);
+      ${isRepeatingDays? `<fieldset class="card__repeat-days">
+        <div class="card__repeat-days-inner">
+          ${repeatingDaysMarkup}
+        </div>
+      </fieldset>`:``}`)
+};
 
-  return (
-    `<article class="card card--edit card--${color} ${repeatinClassName}">
+const createSiteTaskFormEditTemplate = (data) => {
+	const {
+		description,
+		dueDate,
+		repeatingDays,
+		color,
+		isRepeatingDays,
+		isDueDate
+
+	} = data;
+
+	if (!description) {
+		return ``;
+	}
+	const colorsMarkup = createColorsMarkup(color);
+
+	const repeatingTemplate = createTaskEditRepeatingTemplate(repeatingDays, isRepeatingDays);
+
+	const dateTemplate = createTaskEditDateTemplate(dueDate, isDueDate);
+
+
+	//const repeatingYesNo = isRepeating(repeatingDays) ? `yes` : `no`;
+
+	const repeatinClassName = isRepeating(repeatingDays) ? `card--repeat` : ``;
+
+	// console.log(repeatingDays);
+
+	return (
+		`<article class="card card--edit card--${color} ${repeatinClassName}">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__color-bar">
@@ -54,25 +108,16 @@ const createSiteTaskFormEditTemplate = (task) => {
                 <div class="card__settings">
                   <div class="card__details">
                     <div class="card__dates">
-                      <button class="card__date-deadline-toggle" type="button">
-                        date: <span class="card__date-status">yes</span>
-                      </button>
 
-                      <fieldset class="card__date-deadline">
-                        <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="" name="date" value="${date} ${time}">
-                        </label>
-                      </fieldset>
 
-                      <button class="card__repeat-toggle" type="button">
-                        repeat:<span class="card__repeat-status">${repeatingYesNo}</span>
-                      </button>
+${dateTemplate}
 
-                      <fieldset class="card__repeat-days">
-                        <div class="card__repeat-days-inner">
-                          ${repeatingDaysMarkup}
-                        </div>
-                      </fieldset>
+${repeatingTemplate}
+
+
+
+
+
                     </div>
                   </div>
 
@@ -91,28 +136,64 @@ const createSiteTaskFormEditTemplate = (task) => {
               </div>
             </form>
           </article>`
-  );
+	);
 };
 
 
 export default class TaskEdit extends Abstract {
-  constructor(task) {
-    super();
-    this._task = task;
-    this._submitHandler = this._submitHandler.bind(this);
+	constructor(task = BLANK_TASK) {
+		super();
+		this._data = TaskEdit.parseTaskToData(task);
+		this._submitHandler = this._submitHandler.bind(this);
+	}
+
+	getTemplate() {
+		return createSiteTaskFormEditTemplate(this._data);
+	}
+
+	_submitHandler(evt) {
+		evt.preventDefault();
+		this._callback.click(TaskEdit.parseDataToTask(this._data));
+	}
+	setSubmitHandler(callback) {
+		this._callback.click = callback;
+		this.getElement().addEventListener(`submit`, this._submitHandler);
+	}
+
+  static parseTaskToData(task) {
+    return Object.assign(
+        {},
+        task,
+        {
+          isDueDate: task.dueDate !== null,
+          isRepeatingDays: isRepeating(task.repeatingDays)
+        }
+    );
   }
 
-  getTemplate() {
-    return createSiteTaskFormEditTemplate(this._task);
-  }
+  static parseDataToTask(data) {
+    data = Object.assign({}, data);
 
-  _submitHandler(evt) {
-    evt.preventDefault();
-    this._callback.click(this._task);
-  }
-  setSubmitHandler(callback) {
-    this._callback.click = callback;
-    this.getElement().addEventListener(`submit`, this._submitHandler);
+    if (!data.isDueDate) {
+      data.dueDate = null;
+    }
+
+    if (!data.isRepeating) {
+      data.repeating = {
+        mo: false,
+        tu: false,
+        we: false,
+        th: false,
+        fr: false,
+        sa: false,
+        su: false
+      };
+    }
+
+    delete data.isDueDate;
+    delete data.isRepeating;
+
+    return data;
   }
 
 
