@@ -108,16 +108,8 @@ const createSiteTaskFormEditTemplate = (data) => {
                 <div class="card__settings">
                   <div class="card__details">
                     <div class="card__dates">
-
-
-${dateTemplate}
-
-${repeatingTemplate}
-
-
-
-
-
+                    ${dateTemplate}
+                    ${repeatingTemplate}
                     </div>
                   </div>
 
@@ -150,6 +142,38 @@ export default class TaskEdit extends Abstract {
 	getTemplate() {
 		return createSiteTaskFormEditTemplate(this._data);
 	}
+
+
+// Опишем метод updateData, который будет обновлять данные в свойстве _data, а потом вызывать обновление шаблона
+
+  updateData(update) {
+    if (!update) {
+      return;
+    }
+
+    this._data = Object.assign(
+        {},
+        this._data,
+        update
+    );
+
+    this.updateElement();
+  }
+
+
+  // Объявим метод updateElement, его задача удалить старый DOM элемент, вызвать генерацию нового и заменить один на другой
+  //
+  // N.B. "Фокус" в том, что при генерации нового элемента будет снова зачитано свойство _data. И если мы сперва обновим его, а потом шаблон, то в итоге получим элемент с новыми данными
+  updateElement() {
+    let prevElement = this.getElement();
+    const parent = prevElement.parentElement;
+    this.removeElement();
+
+    const newElement = this.getElement();
+
+    parent.replaceChild(newElement, prevElement);
+    prevElement = null; // Чтобы окончательно "убить" ссылку на prevElement
+  }
 
 	_submitHandler(evt) {
 		evt.preventDefault();
