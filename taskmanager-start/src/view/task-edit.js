@@ -136,7 +136,21 @@ export default class TaskEdit extends Abstract {
 	constructor(task = BLANK_TASK) {
 		super();
 		this._data = TaskEdit.parseTaskToData(task);
+
+
 		this._submitHandler = this._submitHandler.bind(this);
+    this._dueDateToggleHandler = this._dueDateToggleHandler.bind(this);
+    this._repeatingToggleHandler = this._repeatingToggleHandler.bind(this);
+
+
+
+    //ВРЕМЕННО ОБЪЯВЛЯЕМ ОБРАБОТЧИКИ В КОНСТРУКТОРЕ
+    this.getElement()
+     .querySelector(`.card__date-deadline-toggle`)
+     .addEventListener(`click`, this._dueDateToggleHandler);
+   this.getElement()
+     .querySelector(`.card__repeat-toggle`)
+     .addEventListener(`click`, this._repeatingToggleHandler);
 	}
 
 	getTemplate() {
@@ -158,6 +172,21 @@ export default class TaskEdit extends Abstract {
     );
 
     this.updateElement();
+  }
+
+
+  _dueDateToggleHandler(evt){
+    evt.preventDefault();
+    this.updateData({
+      isDueDate: !this._data.isDueDate
+    });
+  }
+
+  _repeatingToggleHandler(evt){
+    evt.preventDefault();
+    this.updateData({
+      isRepeatingDays: !this._data.isRepeatingDays
+    });
   }
 
 
