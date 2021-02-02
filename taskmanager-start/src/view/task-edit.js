@@ -137,6 +137,8 @@ export default class TaskEdit extends Abstract {
 		super();
 		this._data = TaskEdit.parseTaskToData(task);
 
+//метод _setInnerHandlers будет навешивать внутренние обработчики, вроде переключения выбора даты или повторения
+		this._setInnerHandlers();
 
 		this._submitHandler = this._submitHandler.bind(this);
     this._dueDateToggleHandler = this._dueDateToggleHandler.bind(this);
@@ -174,6 +176,17 @@ export default class TaskEdit extends Abstract {
     this.updateElement();
   }
 
+	// Опишем метод restoreHandlers, который будет восстанавливать обработчики после обновления. Здесь нужно восстановить как внутренние, так и внешние
+	restoreHandlers(){
+		this._setInnerHandlers();
+		this.setSubmitHandler(this._callback.click)
+	}
+
+	_setInnerHandlers() {
+		this.getElement().querySelector(`.card__date-deadline-toggle`).addEventListener(`click`, this._dueDateToggleHandler);
+    this.getElement().querySelector(`.card__repeat-toggle`).addEventListener(`click`, this._repeatingToggleHandler);
+	}
+
 
   _dueDateToggleHandler(evt){
     evt.preventDefault();
@@ -202,6 +215,8 @@ export default class TaskEdit extends Abstract {
 
     parent.replaceChild(newElement, prevElement);
     prevElement = null; // Чтобы окончательно "убить" ссылку на prevElement
+
+		this.restoreHandlers(); //восстанавливаем обработчики
   }
 
 	_submitHandler(evt) {
